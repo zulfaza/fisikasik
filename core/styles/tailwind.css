@@ -22,6 +22,10 @@
 		animation: spin 1.2s linear infinite;
 	}
 
+	.container {
+		@apply max-w-7xl mx-auto px-5 md:px-0;
+	}
+
 	@keyframes spin {
 		0% {
 			transform: rotate(0deg);
@@ -29,6 +33,10 @@
 		100% {
 			transform: rotate(360deg);
 		}
+	}
+
+	.paragraph p {
+		@apply mb-5 text-black;
 	}
 }
 

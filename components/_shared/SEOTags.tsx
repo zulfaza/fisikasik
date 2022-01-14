@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 const DEFAULT = {
 	sitename: 'My Site',
 	domain: 'http://my-site.com/',
-	description: 'Site description that contains some information about what is your site about',
-	image: 'https://images.unsplash.com/photo-1629058622223-93665bf5d046?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+	description: 'Sikunang',
+	image: 'https://images.prismic.io/desa-sikunang/9ec9f797-e402-41c4-8988-b1cfcd68affb_image+2.png?auto=compress,format',
 };
 
 const SEOTags = (props: any) => {

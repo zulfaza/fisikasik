@@ -1,0 +1,53 @@
+import React from 'react';
+import { Image, SliceType } from '@core/prismic/client';
+import { RichText, RichTextBlock } from 'prismic-reactjs';
+import Link from '@components/_shared/Link';
+import { useRouter } from 'next/router';
+
+interface Props {
+	slice: SliceType;
+}
+
+interface LinkProp {
+	route: string;
+	text: RichTextBlock[];
+}
+const FooterMain = ({ slice }: Props): JSX.Element => {
+	const router = useRouter();
+	const logo: Image = slice.primary.logo1;
+	const Links = slice.items;
+
+	return (
+		<section className="w-full mt-5">
+			<div className="bg-topografi-pattern flex-cc py-10 shadow-[-4px_-3px_8px_rgb(0,0,0,0.1)]">
+				{logo && <img src={logo.url} alt={logo.alt} />}
+			</div>
+			<div className="bg-white shadow-[-4px_-3px_8px_rgb(0,0,0,0.1)]">
+				<div className="flex container justify-between max-w-[844px] py-6">
+					{Links.map((link, index) => (
+						<Link
+							className={`${router.asPath === link.route && 'font-bold'} text-black`}
+							key={index}
+							href={link.route}
+						>
+							{RichText.asText(link.text)}
+						</Link>
+					))}
+				</div>
+			</div>
+			<div className="bg-[#F5F5F5] py-7 px-3 text-center md:text-left">
+				<div className="container flex flex-col-reverse md:flex-row justify-between items-center text-black">
+					<div>Copyright © 2022 Pemerintah Desa Sikunang</div>
+					<div className="flex flex-col md:flex-row items-center">
+						<span className="mr-4">
+							Dalam kerjasama dengan TIM KKN-PPM UGM 2021 JT-102
+						</span>
+						<img className="my-5 md:my-0" src="/Logo-logo.png" alt="logo logo" />
+					</div>
+				</div>
+			</div>
+		</section>
+	);
+};
+
+export default FooterMain;

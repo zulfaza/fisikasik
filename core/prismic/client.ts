@@ -1,4 +1,5 @@
 import * as Prismic from '@prismicio/client';
+import * as prismicT from '@prismicio/types';
 
 const apiEndpoint = Prismic.getEndpoint(process.env.PRISMIC_API);
 const accessToken = process.env.NEXT_PUBLIC_PRISMIC_TOKEN || '';
@@ -21,6 +22,22 @@ export const queryLayout = (uid: string): Promise<LayoutContentType> => {
 		.catch(() => null);
 };
 
+export const queryNews = async (slug: string): Promise<NewsType> => {
+	return client
+		.getByUID('news', slug)
+		.then((res) => ({ ...res.data, slug }))
+		.catch(() => null);
+};
+
+export const queryAllNews = async (): Promise<NewsType[]> => {
+	return client.getAllByType('news', {
+		orderings: {
+			field: 'document.created_at',
+			direction: 'desc',
+		},
+	});
+};
+
 export default client;
 
 export interface SliceType {
@@ -30,10 +47,29 @@ export interface SliceType {
 	slice_type: string;
 }
 
-export interface ContentType {
+export interface ContentType extends prismicT.PrismicDocument {
 	html_title: string;
 	route: string;
 	body: SliceType[];
+	layout: { uid: string };
+}
+
+export interface Image {
+	dimensions: {
+		width: number;
+		height: number;
+	};
+	alt: string | null;
+	copyright: string | null;
+	url: string;
+}
+export interface NewsType extends prismicT.PrismicDocument {
+	html_title: string;
+	route: string;
+	body?: SliceType[];
+	created_at: string;
+	thumbnail: Image;
+	author: string;
 	layout: { uid: string };
 }
 

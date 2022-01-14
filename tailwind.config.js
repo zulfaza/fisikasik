@@ -1,12 +1,7 @@
 module.exports = {
+	mode: 'jit',
 	content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
 	theme: {
-		container: {
-			padding: {
-				DEFAULT: '5%',
-				sm: '32px',
-			},
-		},
 		extend: {
 			colors: {
 				base: '#ffffff',
@@ -18,7 +13,11 @@ module.exports = {
 				success: '#67db8e',
 			},
 			fontFamily: {
-				main: 'ProximaNova, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+				main: 'Poppins, sans-serif',
+				inter: 'Inter, sans-serif',
+			},
+			backgroundImage: {
+				'topografi-pattern': "url('/Background/Topografi.svg')",
 			},
 			screens: {
 				'-2xl': { raw: '(max-width: 1535px)' },
