@@ -24,7 +24,7 @@ const index = ({ news, layout_content }: StaticProps): JSX.Element => {
 	);
 };
 
-const ArrowIcon = ({ className = '' }) => (
+export const ArrowIcon = ({ className = '' }) => (
 	<svg
 		className={className}
 		width="20"
@@ -46,7 +46,6 @@ const ArrowIcon = ({ className = '' }) => (
 const BeritaItem = ({ berita }: { berita: NewsDoc }) => {
 	const content = berita.data;
 	const createdAt = new Date(content.created_at);
-	const author = content.author;
 	const dateLabel = format(createdAt, 'd MMMM yyyy', { locale: id });
 	return (
 		<div className="w-full">
