@@ -1,57 +1,68 @@
 import React from 'react';
-import { NewsType, SliceType } from '@core/prismic/client';
-
+import { NewsDoc, SliceType } from '@core/prismic/client';
+import Link from '@components/_shared/Link';
+import formatDistance from 'date-fns/formatDistance';
+import { id } from 'date-fns/locale';
 interface Props {
 	slice: SliceType;
 }
 
-const BeritaLain = ({ slice }: Props): JSX.Element => {
-	const Beritas = [
-		{
-			html_title: 'News Title Lorem Ipsum Dolor Sit Amet',
-			route: '/',
-			created_at: '2022-01-14T17:00:00+0000',
-			thumbnail: {
-				url: 'https://images.prismic.io/desa-sikunang/0b958e99-8200-44d6-88ab-34f2302ac0e3_IMG_7009+1.png?auto=compress,format',
-				alt: 'hehe',
-				copyright: null,
-				dimensions: {
-					width: 200,
-					height: 200,
-				},
-			},
-			author: 'hehehe',
-			layout: { uid: 'laksdflasjda' },
-		},
-		{
-			html_title: 'News Title Lorem Ipsum Dolor Sit Amet',
-			route: '/',
-			created_at: '2022-01-14T17:00:00+0000',
-			thumbnail: {
-				url: 'https://images.prismic.io/desa-sikunang/0b958e99-8200-44d6-88ab-34f2302ac0e3_IMG_7009+1.png?auto=compress,format',
-				alt: 'hehe',
-				copyright: null,
-				dimensions: {
-					width: 200,
-					height: 200,
-				},
-			},
-			author: 'hehehe',
-			layout: { uid: 'laksdflasjda' },
-		},
-	];
+const BeritaItem = ({ berita }: { berita: NewsDoc }): JSX.Element => {
+	const content = berita.data;
+	const createdAt = new Date(content.created_at);
+	const author = content.author;
+	const today = new Date();
+	const dateLabel = formatDistance(createdAt, today, { addSuffix: true, locale: id });
 	return (
-		<section className="container w-full">
-			<hr className="border-[#C4C4C4] my-6" />
-			<h2 className="font-bold text-black text-2xl">Berita Lainnya</h2>
-			<div>
-				{/* {Beritas.map((berita,index)=>{
-					<div>
-
-					</div>
-				})} */}
+		<div className="md:max-w-[270px] w-full group mb-10">
+			<Link href={`/berita/${berita.uid}`}>
+				<img
+					className="overflow-hidden transform scale-100 group-hover:scale-105 transition-transform rounded-lg w-full md:h-44 object-cover"
+					src={berita.data.thumbnail.url}
+					alt={berita.data.thumbnail.url}
+				/>
+			</Link>
+			<div className="my-2 md:my-4">
+				<Link
+					className="font-bold group-hover:underline transition-all"
+					href={`/berita/${berita.uid}`}
+				>
+					{berita.data.html_title}
+				</Link>
 			</div>
-		</section>
+			<div className="flex items-center text-sm">
+				{dateLabel.replace('sekitar ', '').replace('yang', '')}
+				<svg
+					className="mx-4"
+					width="8"
+					height="8"
+					viewBox="0 0 10 10"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<circle cx="5" cy="5" r="5" fill="#C4C4C4" />
+				</svg>
+				{author}
+			</div>
+		</div>
+	);
+};
+
+const BeritaLain = ({ slice }: Props): JSX.Element => {
+	const Beritas: NewsDoc[] = slice.items;
+
+	return (
+		<>
+			<hr className="border-[#C4C4C4] my-6" />
+			<section className="container w-full">
+				<h2 className="font-bold text-black text-2xl mb-8">Berita Lainnya</h2>
+				<div className="flex flex-col md:flex-row justify-between items-center">
+					{Beritas.map((berita) => (
+						<BeritaItem berita={berita} key={berita.id} />
+					))}
+				</div>
+			</section>
+		</>
 	);
 };
 
