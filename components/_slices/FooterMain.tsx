@@ -20,13 +20,21 @@ const FooterMain = ({ slice }: Props): JSX.Element => {
 	return (
 		<section className="w-full mt-5">
 			<div className="bg-topografi-pattern flex-cc py-10 shadow-[-4px_-3px_8px_rgb(0,0,0,0.1)]">
-				{logo && <img src={logo.url} alt={logo.alt} />}
+				{logo && (
+					<img
+						className="w-11/12 md:w-full max-w-[475.3px]"
+						src={logo.url}
+						alt={logo.alt}
+					/>
+				)}
 			</div>
 			<div className="bg-white shadow-[-4px_-3px_8px_rgb(0,0,0,0.1)]">
-				<div className="flex container justify-between max-w-[844px] py-6">
+				<div className="flex container flex-col md:flex-row justify-between max-w-[844px] py-6">
 					{Links.map((link, index) => (
 						<Link
-							className={`${router.asPath === link.route && 'font-bold'} text-black`}
+							className={`${
+								router.asPath === link.route && 'font-bold'
+							} border-b md:border-b-0 py-3 border-black text-black`}
 							key={index}
 							href={link.route}
 						>
