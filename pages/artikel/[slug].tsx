@@ -72,7 +72,6 @@ export interface StaticProps {
 
 export const getStaticProps = async ({
 	params: { slug },
-	locale,
 }): Promise<GetStaticPropsResult<StaticProps>> => {
 	const content = await queryNews(slug);
 

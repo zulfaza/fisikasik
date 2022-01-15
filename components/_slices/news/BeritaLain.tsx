@@ -15,7 +15,7 @@ const BeritaItem = ({ berita }: { berita: NewsDoc }): JSX.Element => {
 	const dateLabel = formatDistance(createdAt, today, { addSuffix: true, locale: id });
 	return (
 		<div className="md:max-w-[270px] w-full group mb-10">
-			<Link href={`/berita/${berita.uid}`}>
+			<Link href={`/artikel/${berita.uid}`}>
 				<img
 					className="overflow-hidden transform scale-100 group-hover:scale-105 transition-transform rounded-lg w-full md:h-44 object-cover"
 					src={berita.data.thumbnail.url}
@@ -25,7 +25,7 @@ const BeritaItem = ({ berita }: { berita: NewsDoc }): JSX.Element => {
 			<div className="my-2 md:my-4">
 				<Link
 					className="font-bold group-hover:underline transition-all"
-					href={`/berita/${berita.uid}`}
+					href={`/artikel/${berita.uid}`}
 				>
 					{berita.data.html_title}
 				</Link>

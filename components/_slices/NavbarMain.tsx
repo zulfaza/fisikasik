@@ -36,7 +36,9 @@ const DesktopNav = ({ slice }: Props): JSX.Element => {
 			<div className="flex container justify-between max-w-[844px]">
 				{links.map((link, index) => (
 					<Link
-						className={`${router.asPath === link.route && 'font-bold'} text-black`}
+						className={`${
+							router.asPath === link.route && 'font-bold'
+						} text-black hover:underline uppercase`}
 						key={index}
 						href={link.route}
 					>
@@ -48,37 +50,32 @@ const DesktopNav = ({ slice }: Props): JSX.Element => {
 	);
 };
 
-const HamburgerIcon = ({ className = '' }): JSX.Element => (
-	<svg
-		className={className}
-		width="32"
-		height="32"
-		viewBox="0 0 32 32"
-		fill="none"
-		xmlns="http://www.w3.org/2000/svg"
-	>
-		<path
-			d="M6.66666 22.6665H25.3333"
-			stroke="#14181F"
-			stroke-width="2"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-		/>
-		<path
-			d="M6.66666 16H25.3333"
-			stroke="#14181F"
-			stroke-width="2"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-		/>
-		<path
-			d="M6.66666 9.3335H25.3333"
-			stroke="#14181F"
-			stroke-width="2"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-		/>
-	</svg>
+const HamburgerIcon = ({
+	className = '',
+	open,
+}: {
+	className?: string;
+	open: boolean;
+}): JSX.Element => (
+	<div className="w-6 flex items-center justify-center relative">
+		<span
+			className={`${
+				open ? 'translate-y-0 rotate-45' : '-translate-y-2'
+			} transform transition w-full h-px bg-current absolute`}
+		></span>
+
+		<span
+			className={` ${
+				open ? 'opacity-0 translate-x-3' : 'opacity-100'
+			} transform transition w-full h-px bg-current absolute`}
+		></span>
+
+		<span
+			className={`${
+				open ? 'translate-y-0 -rotate-45' : 'translate-y-2'
+			} transform transition w-full h-px bg-current absolute`}
+		></span>
+	</div>
 );
 
 const MobileNav = ({ slice }: Props): JSX.Element => {
@@ -106,8 +103,11 @@ const MobileNav = ({ slice }: Props): JSX.Element => {
 				)}
 			</div>
 			<div>
-				<button>
-					<HamburgerIcon />
+				<button
+					className=" bg-white rounded-md hover:bg-slate-100 px-2 py-4"
+					onClick={() => setOpen((prev) => !prev)}
+				>
+					<HamburgerIcon className="relative" open={open} />
 				</button>
 			</div>
 		</div>

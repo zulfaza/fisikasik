@@ -34,7 +34,7 @@ const FooterMain = ({ slice }: Props): JSX.Element => {
 						<Link
 							className={`${
 								router.asPath === link.route && 'font-bold'
-							} border-b md:border-b-0 py-3 border-black text-black`}
+							} border-b md:border-b-0 hover:underline py-3 border-black text-black uppercase`}
 							key={index}
 							href={link.route}
 						>

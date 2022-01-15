@@ -1,5 +1,6 @@
 import * as Prismic from '@prismicio/client';
 import * as prismicT from '@prismicio/types';
+import { RichTextBlock } from 'prismic-reactjs';
 
 const apiEndpoint = Prismic.getEndpoint(process.env.PRISMIC_API);
 const accessToken = process.env.NEXT_PUBLIC_PRISMIC_TOKEN || '';
@@ -18,6 +19,13 @@ export const queryByRoute = (route: string): Promise<ContentType> => {
 export const queryLayout = (uid: string): Promise<LayoutContentType> => {
 	return client
 		.getByUID('layouts', uid)
+		.then((res) => res.data)
+		.catch(() => null);
+};
+
+export const queryPage = (uid: string): Promise<LayoutContentType> => {
+	return client
+		.getByUID('pages', uid)
 		.then((res) => res.data)
 		.catch(() => null);
 };
@@ -105,6 +113,7 @@ export interface Image {
 }
 export interface NewsType extends DataInterface {
 	html_title: string;
+	ringkasan: RichTextBlock[];
 	body?: SliceType[];
 	created_at: string;
 	thumbnail: Image;
