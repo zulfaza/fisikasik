@@ -23,25 +23,39 @@ export const queryLayout = (uid: string): Promise<LayoutContentType> => {
 		.catch(() => null);
 };
 
-export const queryPage = (uid: string): Promise<LayoutContentType> => {
+export const queryPageByRoute = (route: string): Promise<ContentType> => {
 	return client
-		.getByUID('pages', uid)
-		.then((res) => res.data)
+		.getSingle('pages', {
+			predicates: [Prismic.predicate.at('my.pages.route', route)],
+		})
+		.then((res: NewsDoc) => injectOtherNews(res))
 		.catch(() => null);
 };
 
-export const injectOtherNews = async (doc: NewsDoc): Promise<NewsType> => {
+export const injectOtherNews = async (doc: NewsDoc | PageDoc): Promise<NewsType | ContentType> => {
 	const promises = [];
 
 	doc.data.body.forEach((slice, index) => {
+		const jumlah = slice.primary.jumlah_berita;
 		switch (slice.slice_type) {
 			case 'berita_lain':
-				const jumlah = slice.primary.jumlah_berita;
 				promises.push(
 					client
 						.getAllByType('news', {
 							pageSize: jumlah,
 							predicates: [Prismic.predicate.not('document.id', doc.id)],
+						})
+						.then((res) => ({
+							result: res,
+							index: index,
+						}))
+				);
+				break;
+			case 'recent_artikel':
+				promises.push(
+					client
+						.getAllByType('news', {
+							pageSize: jumlah,
 						})
 						.then((res) => ({
 							result: res,
@@ -82,6 +96,15 @@ export const queryAllNews = async (): Promise<NewsDoc[]> => {
 	});
 };
 
+export const queryAllPages = async (): Promise<PageDoc[]> => {
+	return client.getAllByType('pages', {
+		orderings: {
+			field: 'document.created_at',
+			direction: 'desc',
+		},
+	});
+};
+
 export default client;
 
 declare type DataInterface = Record<
@@ -95,13 +118,15 @@ export interface SliceType {
 	slice_type: string;
 }
 
-export interface ContentType extends prismicT.PrismicDocumentHeader {
+export interface ContentType extends DataInterface {
 	html_title: string;
 	route: string;
 	body: SliceType[];
 	layout: { uid: string };
 }
-
+export interface PageDoc extends prismicT.PrismicDocument {
+	data: ContentType;
+}
 export interface Image {
 	dimensions: {
 		width: number;
