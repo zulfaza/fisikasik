@@ -118,7 +118,7 @@ const Index = ({ layout_content, news }: StaticProps): JSX.Element => {
 					</div>
 				</div>
 			</section>
-			<section className="bg-white w-fulll shadow-md">
+			<section className="bg-white w-full shadow-md">
 				<div className="container flex-col lg:flex-row flex-cc py-10">
 					<img
 						className="md:mr-10 flex-grow-0"
