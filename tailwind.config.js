@@ -17,6 +17,7 @@ module.exports = {
 			},
 			backgroundImage: {
 				'topografi-pattern': "url('/Background/Topografi.svg')",
+				flower: "url('/images/bunga-1.svg')",
 			},
 			screens: {
 				'-2xl': { raw: '(max-width: 1535px)' },

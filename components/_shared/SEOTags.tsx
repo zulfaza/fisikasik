@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 const DEFAULT = {
-	sitename: 'My Site',
+	sitename: 'Sikunang',
 	domain: 'http://my-site.com/',
 	description: 'Sikunang',
 	image: 'https://images.prismic.io/desa-sikunang/9ec9f797-e402-41c4-8988-b1cfcd68affb_image+2.png?auto=compress,format',

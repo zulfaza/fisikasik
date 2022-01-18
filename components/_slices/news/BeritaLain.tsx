@@ -7,7 +7,7 @@ interface Props {
 	slice: SliceType;
 }
 
-const BeritaItem = ({ berita }: { berita: NewsDoc }): JSX.Element => {
+export const BeritaItem = ({ berita }: { berita: NewsDoc }): JSX.Element => {
 	const content = berita.data;
 	const createdAt = new Date(content.created_at);
 	const author = content.author;
