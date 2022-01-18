@@ -6,6 +6,7 @@ import ContextProvider from '@core/contexts/app';
 
 import '@core/styles/tailwind.css';
 import '@core/styles/typefaces.css';
+import 'flickity/css/flickity.css';
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
 	return (
