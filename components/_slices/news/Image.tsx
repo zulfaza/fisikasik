@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, SliceType } from '@core/prismic/client';
+import { ImageType, SliceType } from '@core/prismic/client';
 import { RichText } from 'prismic-reactjs';
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Image = ({ slice }: Props): JSX.Element => {
-	const image: Image = slice.primary.body1;
+	const image: ImageType = slice.primary.body1;
 	const description = slice.primary.description;
 	return (
 		<div className="flex-cc mb-10">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, SliceType } from '@core/prismic/client';
+import { ImageType, SliceType } from '@core/prismic/client';
 import Link from '@components/_shared/Link';
 import { ArrowIcon } from '@pages/artikel';
 import { RichText, RichTextBlock } from 'prismic-reactjs';
@@ -12,7 +12,7 @@ const HomeGunungBismo = ({ slice }: Props): JSX.Element => {
 	const primary: {
 		cta_text: string;
 		cta_url: string;
-		image: Image;
+		image: ImageType;
 		quotes: RichTextBlock[];
 		title: RichTextBlock[];
 	} = slice.primary;

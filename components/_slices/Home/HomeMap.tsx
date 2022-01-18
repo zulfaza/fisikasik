@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, SliceType } from '@core/prismic/client';
+import { ImageType, SliceType } from '@core/prismic/client';
 import { RichText, RichTextBlock } from 'prismic-reactjs';
 
 interface Props {
@@ -10,7 +10,7 @@ const HomeMap = ({ slice }: Props): JSX.Element => {
 	const primary: {
 		coordinat: RichTextBlock[];
 		desc: RichTextBlock[];
-		image: Image;
+		image: ImageType;
 	} = slice.primary;
 
 	return (

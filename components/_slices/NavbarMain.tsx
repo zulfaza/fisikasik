@@ -1,6 +1,6 @@
 import React from 'react';
 import { RichText, RichTextBlock } from 'prismic-reactjs';
-import { Image, SliceType } from '@core/prismic/client';
+import { ImageType, SliceType } from '@core/prismic/client';
 import Link from '@components/_shared/Link';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
@@ -18,8 +18,8 @@ interface LinkProp {
 const DesktopNav = ({ slice }: Props): JSX.Element => {
 	const router = useRouter();
 	const primary = slice.primary;
-	const logo1: Image = primary.logo1;
-	const logo2: Image = primary.logo2;
+	const logo1: ImageType = primary.logo1;
+	const logo2: ImageType = primary.logo2;
 	const links: LinkProp[] = slice.items;
 	return (
 		<nav className="w-full bg-topografi-pattern md:py-11 flex-cc flex-col">
@@ -81,8 +81,8 @@ const HamburgerIcon = ({
 const MobileNav = ({ slice }: Props): JSX.Element => {
 	const router = useRouter();
 	const primary = slice.primary;
-	const logo1: Image = primary.logo1;
-	const logo2: Image = primary.logo2;
+	const logo1: ImageType = primary.logo1;
+	const logo2: ImageType = primary.logo2;
 	const links: LinkProp[] = slice.items;
 	const [open, setOpen] = useState(false);
 	// Todo Add popup links

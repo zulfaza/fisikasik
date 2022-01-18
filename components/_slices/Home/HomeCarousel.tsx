@@ -1,4 +1,4 @@
-import { Image, SliceType } from '@core/prismic/client';
+import { ImageType, SliceType } from '@core/prismic/client';
 import React from 'react';
 import Flickity from 'react-flickity-component';
 import parse from 'html-react-parser';
@@ -23,7 +23,10 @@ const HomeCarousel = ({ slice }: Props): JSX.Element => {
 					}}
 				>
 					{items.map(
-						(item: { embed: string | null; image: Image | null }, index: number) => {
+						(
+							item: { embed: string | null; image: ImageType | null },
+							index: number
+						) => {
 							if (item.embed)
 								return (
 									<div

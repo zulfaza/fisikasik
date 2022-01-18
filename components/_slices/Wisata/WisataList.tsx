@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, SliceType } from '@core/prismic/client';
+import { ImageType, SliceType } from '@core/prismic/client';
 import Link from '@components/_shared/Link';
 import { RichText, RichTextBlock } from 'prismic-reactjs';
 
@@ -9,7 +9,7 @@ interface Props {
 
 const WisataList = ({ slice }: Props): JSX.Element => {
 	const wisatas: {
-		background: Image;
+		background: ImageType;
 		title: RichTextBlock[];
 		url: string;
 	}[] = slice.items;

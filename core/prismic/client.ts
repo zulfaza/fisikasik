@@ -127,7 +127,7 @@ export interface ContentType extends DataInterface {
 export interface PageDoc extends prismicT.PrismicDocument {
 	data: ContentType;
 }
-export interface Image {
+export interface ImageType {
 	dimensions: {
 		width: number;
 		height: number;
@@ -141,7 +141,7 @@ export interface NewsType extends DataInterface {
 	ringkasan: RichTextBlock[];
 	body?: SliceType[];
 	created_at: string;
-	thumbnail: Image;
+	thumbnail: ImageType;
 	author: string;
 	layout: { uid: string };
 }
