@@ -14,8 +14,7 @@ import Separator from './Home/Separator';
 import SimpleParagraph from './Home/SimpleParagraph';
 // Wisata
 import WisataList from './Wisata/WisataList';
-
-export default {
+const sliceList = {
 	NavbarMain,
 	FooterMain,
 	Paragraph,
@@ -30,3 +29,4 @@ export default {
 	SimpleParagraph,
 	WisataList,
 };
+export default sliceList;

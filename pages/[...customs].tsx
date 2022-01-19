@@ -1,6 +1,5 @@
 import React from 'react';
 import { GetStaticPropsResult } from 'next';
-import { useRouter } from 'next/router';
 import DynamicLayout from '@components/_layouts/DynamicLayout';
 import RenderSlice from '@components/_slices/_renderslice';
 import {
@@ -12,10 +11,8 @@ import {
 } from '@core/prismic/client';
 
 const CustomPage = ({ content, layout_content }: StaticProps): JSX.Element => {
-	const router = useRouter();
-
 	return (
-		<DynamicLayout content={layout_content} title={content.html_title} key={router.asPath}>
+		<DynamicLayout content={layout_content} title={content.html_title}>
 			{content.body.map((slice, i) => (
 				<RenderSlice slice={slice} key={i} />
 			))}

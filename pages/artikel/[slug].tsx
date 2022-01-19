@@ -1,7 +1,6 @@
 import DynamicLayout from '@components/_layouts/DynamicLayout';
 import RenderSlice from '@components/_slices/_renderslice';
 import {
-	Image,
 	LayoutContentType,
 	NewsType,
 	queryAllNews,
@@ -9,13 +8,12 @@ import {
 	queryNews,
 } from '@core/prismic/client';
 import { GetStaticPropsResult } from 'next';
-import { useRouter } from 'next/router';
 import React from 'react';
 import formatDistance from 'date-fns/formatDistance';
 import { id } from 'date-fns/locale';
+import Image from 'next/image';
 
 const CustomPage = ({ content, layout_content }: StaticProps): JSX.Element => {
-	const router = useRouter();
 	const thumbnail = content.thumbnail;
 	const title = content.html_title;
 	const createdAt = new Date(content.created_at);
@@ -26,13 +24,14 @@ const CustomPage = ({ content, layout_content }: StaticProps): JSX.Element => {
 	const dateLabel = formatDistance(createdAt, today, { addSuffix: true, locale: id });
 
 	return (
-		<DynamicLayout content={layout_content} title={content.html_title} key={router.asPath}>
+		<DynamicLayout content={layout_content} title={content.html_title}>
 			<div className="shadow-[-4px_-3px_8px_rgb(0,0,0,0.1)] py-12 w-full">
 				<div className="container">
 					{thumbnail && (
-						<div className="mb-8">
-							<img
-								className="w-full h-full rounded-xl overflow-hidden"
+						<div className="w-full h-[616px] rounded-xl overflow-hidden relative">
+							<Image
+								layout="fill"
+								objectFit="cover"
 								src={thumbnail.url}
 								alt={thumbnail.alt}
 							/>

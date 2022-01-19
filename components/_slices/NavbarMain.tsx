@@ -5,6 +5,7 @@ import Link from '@components/_shared/Link';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import useResize from '@core/hooks/useResize';
+import Image from 'next/image';
 
 interface Props {
 	slice: SliceType;
@@ -25,12 +26,16 @@ const DesktopNav = ({ slice }: Props): JSX.Element => {
 		<nav className="w-full bg-topografi-pattern md:py-11 flex-cc flex-col">
 			{logo1 && (
 				<Link className="mb-4" href="/">
-					<img className="w-12" src={logo1.url} alt={logo1.alt} />
+					<div className="w-12 h-12 relative">
+						<Image layout="fill" objectFit="contain" src={logo1.url} alt={logo1.alt} />
+					</div>
 				</Link>
 			)}
 			{logo2 && (
 				<Link className="ml-8 mb-14" href="/">
-					<img className="h-16" src={logo2.url} alt={logo2.alt} />
+					<div className="h-16 w-[477px] relative">
+						<Image layout="fill" objectFit="contain" src={logo2.url} alt={logo2.alt} />
+					</div>
 				</Link>
 			)}
 			<div className="flex container justify-between max-w-[844px]">
@@ -50,13 +55,7 @@ const DesktopNav = ({ slice }: Props): JSX.Element => {
 	);
 };
 
-const HamburgerIcon = ({
-	className = '',
-	open,
-}: {
-	className?: string;
-	open: boolean;
-}): JSX.Element => (
+const HamburgerIcon = ({ open }: { className?: string; open: boolean }): JSX.Element => (
 	<div className="w-6 flex items-center justify-center relative">
 		<span
 			className={`${
@@ -79,11 +78,10 @@ const HamburgerIcon = ({
 );
 
 const MobileNav = ({ slice }: Props): JSX.Element => {
-	const router = useRouter();
 	const primary = slice.primary;
 	const logo1: ImageType = primary.logo1;
 	const logo2: ImageType = primary.logo2;
-	const links: LinkProp[] = slice.items;
+	// const links: LinkProp[] = slice.items;
 	const [open, setOpen] = useState(false);
 	// Todo Add popup links
 	return (

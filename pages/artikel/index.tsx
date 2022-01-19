@@ -1,17 +1,16 @@
 import DynamicLayout from '@components/_layouts/DynamicLayout';
 import { LayoutContentType, NewsDoc, queryAllNews, queryLayout } from '@core/prismic/client';
 import { GetStaticPropsResult } from 'next';
-import { useRouter } from 'next/router';
 import React from 'react';
 import format from 'date-fns/format';
 import { id } from 'date-fns/locale';
 import Link from '@components/_shared/Link';
 import { RichText } from 'prismic-reactjs';
+import Image from 'next/image';
 
-const index = ({ news, layout_content }: StaticProps): JSX.Element => {
-	const router = useRouter();
+const Index = ({ news, layout_content }: StaticProps): JSX.Element => {
 	return (
-		<DynamicLayout content={layout_content} title={'Berita Sikunang'} key={router.asPath}>
+		<DynamicLayout content={layout_content} title={'Berita Sikunang'}>
 			<h1 className="my-10 text-2xl md:text-4xl font-bold text-center text-black">
 				Artikel dan Berita
 			</h1>
@@ -49,12 +48,16 @@ const BeritaItem = ({ berita }: { berita: NewsDoc }) => {
 	const dateLabel = format(createdAt, 'd MMMM yyyy', { locale: id });
 	return (
 		<div className="w-full">
-			<div className="bg-white border shadow-md flex flex-col md:flex-row rounded-xl overflow-hidden mb-10">
-				<img
-					src={content.thumbnail.url}
-					alt={content.thumbnail.alt}
-					className="w-full object-cover md:max-w-[50%] lg:max-w-[455px] h-[346px]"
-				/>
+			<div className="bg-white border h-[346px] shadow-md flex flex-col md:flex-row rounded-xl overflow-hidden mb-10">
+				<div className="md:max-w-[50%] lg:max-w-[455px] h-full w-full relative flex-shrink-0">
+					<Image
+						className="w-full h-full"
+						src={content.thumbnail.url}
+						alt={content.thumbnail.alt}
+						objectFit="cover"
+						layout="fill"
+					/>
+				</div>
 				<div className="p-8 sm:p-9 md:p-7 xl:p-9 flex flex-col justify-between">
 					<div className="mb-4">
 						<h3>
@@ -97,4 +100,4 @@ export const getStaticProps = async (): Promise<GetStaticPropsResult<StaticProps
 	};
 };
 
-export default index;
+export default Index;
