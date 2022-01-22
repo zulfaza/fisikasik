@@ -15,21 +15,21 @@ const WisataList = ({ slice }: Props): JSX.Element => {
 	}[] = slice.items;
 
 	return (
-		<section className="container max-w-6xl w-full mx-auto my-10">
+		<section className="container mx-auto my-10 w-full max-w-6xl">
 			{wisatas.map((wisata, index) => {
 				return (
 					<div
 						key={index}
-						className="relative h-64 overflow-hidden first:rounded-t-xl last:rounded-b-xl"
+						className="relative overflow-hidden h-64 first:rounded-t-xl last:rounded-b-xl"
 					>
 						<img
-							className="top-0 left-0 absolute object-cover w-full h-full z-10"
+							className="absolute object-cover top-0 left-0 z-10 w-full h-full"
 							src={wisata.background.url}
 							alt=""
 						/>
-						<div className="w-full h-full flex-cc relative z-20">
+						<div className="relative flex-cc z-20 w-full h-full">
 							<Link href={wisata.url}>
-								<h2 className="text-white font-bold uppercase text-4xl drop-shadow-xl md:text-6xl">
+								<h2 className="text-4xl font-bold text-white uppercase drop-shadow-xl md:text-6xl">
 									{RichText.asText(wisata.title)}
 								</h2>
 							</Link>

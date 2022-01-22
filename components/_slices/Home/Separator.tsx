@@ -1,11 +1,5 @@
 import React from 'react';
-import { SliceType } from '@core/prismic/client';
-
-interface Props {
-	slice: SliceType;
-}
-
-const Separator = ({ slice }: Props): JSX.Element => {
+const Separator = (): JSX.Element => {
 	return (
 		<section className="my-10 bg-white w-full">
 			<div className="container">

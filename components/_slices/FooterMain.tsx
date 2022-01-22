@@ -30,7 +30,7 @@ const FooterMain = ({ slice }: Props): JSX.Element => {
 			</div>
 			<div className="bg-white shadow-[-4px_-3px_8px_rgb(0,0,0,0.1)]">
 				<div className="flex container flex-col md:flex-row justify-between max-w-[844px] py-6">
-					{Links.map((link, index) => (
+					{Links.map((link: LinkProp, index) => (
 						<Link
 							className={`${
 								router.asPath === link.route && 'font-bold'
