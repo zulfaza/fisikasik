@@ -1,55 +1,21 @@
 import React from 'react';
-import { SliceType } from '@core/prismic/client';
+import { SliceType, WisataDoc } from '@core/prismic/client';
 import Link from '@components/_shared/Link';
 
 interface Props {
 	slice: SliceType;
 }
 
-const Wisatas = [
-	{
-		thumbnail: '/images/cover-wisata.png',
-		route: '/',
-		title: 'Desa Wisata dan Budaya',
-	},
-	{
-		thumbnail: '/images/cover-wisata.png',
-		route: '/',
-		title: 'Gunung Bismo',
-	},
-	{
-		thumbnail: '/images/cover-wisata.png',
-		route: '/',
-		title: 'Batu Lik Lik',
-	},
-	{
-		thumbnail: '/images/cover-wisata.png',
-		route: '/',
-		title: 'Andha Budha',
-	},
-	{
-		thumbnail: '/images/cover-wisata.png',
-		route: '/',
-		title: 'Pakis Jangan',
-	},
-	{
-		thumbnail: '/images/cover-wisata.png',
-		route: '/',
-		title: 'Telaga Silewek',
-	},
-	{
-		thumbnail: '/images/cover-wisata.png',
-		route: '/',
-		title: 'Bukit Sarinah',
-	},
-	{
-		thumbnail: '/images/cover-wisata.png',
-		route: '/',
-		title: 'Pengumben',
-	},
-];
-
 const WisataSikunangHome = ({ slice }: Props): JSX.Element => {
+	console.log(slice);
+	const Wisatas = slice.items.map((wisata: WisataDoc) => {
+		const { thumbnail, html_title } = wisata.data;
+		return {
+			thumbnail: thumbnail.url,
+			route: '/wisata' + wisata.uid,
+			title: html_title,
+		};
+	});
 	return (
 		<section className="my-3 py-10 bg-topografi-pattern w-full">
 			<div className="container">

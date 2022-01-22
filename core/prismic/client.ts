@@ -23,12 +23,50 @@ export const queryLayout = (uid: string): Promise<LayoutContentType> => {
 		.catch(() => null);
 };
 
+export const injectWisata = (doc: ContentType) => {
+	const promises = [];
+	const sliceList = ['wisata_sikunang_home'];
+
+	doc.body.forEach((slice, index) => {
+		console.log('Type : ', slice.slice_type, sliceList.includes(slice.slice_type));
+
+		if (sliceList.includes(slice.slice_type)) {
+			promises.push(
+				client
+					.getAllByType('wisata', {
+						orderings: {
+							field: 'document.created_at',
+							direction: 'desc',
+						},
+					})
+					.then((res) => ({
+						result: res,
+						index: index,
+					}))
+			);
+		}
+	});
+
+	if (promises.length > 0)
+		return Promise.all(promises).then((res) => {
+			res.forEach(({ result, index }) => {
+				doc.body[index].items = result;
+			});
+			console.log(res);
+
+			return doc;
+		});
+
+	return doc;
+};
+
 export const queryPageByRoute = (route: string): Promise<ContentType> => {
 	return client
 		.getSingle('pages', {
 			predicates: [Prismic.predicate.at('my.pages.route', route)],
 		})
 		.then((res: NewsDoc) => injectOtherNews(res))
+		.then((res: ContentType) => injectWisata(res))
 		.catch(() => null);
 };
 
@@ -124,8 +162,20 @@ export interface ContentType extends DataInterface {
 	body: SliceType[];
 	layout: { uid: string };
 }
+
 export interface PageDoc extends prismicT.PrismicDocument {
 	data: ContentType;
+}
+export interface WisataType extends DataInterface {
+	html_title: string;
+	body: SliceType[];
+	layout: { uid: string };
+	created_at: string | null;
+	ringkasan: RichTextBlock[];
+	thumbnail: ImageType;
+}
+export interface WisataDoc extends prismicT.PrismicDocument {
+	data: WisataType;
 }
 export interface ImageType {
 	dimensions: {
