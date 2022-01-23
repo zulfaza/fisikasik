@@ -11,7 +11,7 @@ const HomeCarousel = ({ slice }: Props): JSX.Element => {
 	const items = slice.items;
 
 	return (
-		<section className="bg-white w-full py-16">
+		<section className="bg-white w-full py-24 md:py-16">
 			<div>
 				<Flickity
 					className={' focus:outline-none overflow-hidden'}
@@ -31,7 +31,7 @@ const HomeCarousel = ({ slice }: Props): JSX.Element => {
 								return (
 									<div
 										key={index}
-										className=" px-2 rounded-xl overflow-hidden iframe-h-full max-w-7xl md:w-max w-full md:h-[720px] text-white cursor-pointer"
+										className=" px-2 rounded-xl overflow-hidden iframe-h-full w-4/5 h-[300px] md:max-w-7xl md:w-max md:h-[720px] text-white cursor-pointer"
 									>
 										{parse(item.embed)}
 									</div>

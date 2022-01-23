@@ -48,7 +48,7 @@
 	}
 
 	.iframe-h-full iframe {
-		@apply h-full;
+		@apply h-full w-full md:w-[1280px];
 	}
 }
 

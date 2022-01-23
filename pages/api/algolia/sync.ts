@@ -1,4 +1,4 @@
-import { artikelIndex } from '@core/algolia';
+import artikelIndex from '@core/algolia';
 import client, { ImageType, NewsDoc, SliceType } from '@core/prismic/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { RichTextBlock } from 'prismic-reactjs';

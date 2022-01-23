@@ -1,4 +1,4 @@
-import { artikelIndex } from '@core/algolia';
+import artikelIndex from '@core/algolia';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

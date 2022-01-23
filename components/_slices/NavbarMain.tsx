@@ -81,32 +81,50 @@ const MobileNav = ({ slice }: Props): JSX.Element => {
 	const primary = slice.primary;
 	const logo1: ImageType = primary.logo1;
 	const logo2: ImageType = primary.logo2;
-	// const links: LinkProp[] = slice.items;
+	const links: LinkProp[] = slice.items;
 	const [open, setOpen] = useState(false);
 	// Todo Add popup links
 	return (
-		<div className="flex py-4 px-5 items-center justify-between">
-			<div>
-				{logo1 && (
-					<Link className="" href="/">
-						<img className=" max-h-10" src={logo1.url} alt={logo1.alt} />
-					</Link>
-				)}
+		<div className="fixed z-50 w-full bg-white border-b shadow-lg">
+			<div className="flex w-full  py-4 px-5 items-center justify-between">
+				<div>
+					{logo1 && (
+						<Link className="" href="/">
+							<img className=" max-h-10" src={logo1.url} alt={logo1.alt} />
+						</Link>
+					)}
+				</div>
+				<div className="mx-4">
+					{logo2 && (
+						<Link href="/">
+							<img className=" max-h-7" src={logo2.url} alt={logo2.alt} />
+						</Link>
+					)}
+				</div>
+				<div>
+					<button
+						className=" bg-white rounded-md hover:bg-slate-100 px-2 py-4"
+						onClick={() => setOpen((prev) => !prev)}
+					>
+						<HamburgerIcon className="relative" open={open} />
+					</button>
+				</div>
 			</div>
-			<div className="mx-4">
-				{logo2 && (
-					<Link href="/">
-						<img className=" max-h-7" src={logo2.url} alt={logo2.alt} />
+			<div
+				className={` ${
+					open ? 'translate-x-0' : 'translate-x-full'
+				} w-screen overflow-hidden h-screen transition-all bg-white flex flex-col absolute top-18 p-5 left-0`}
+			>
+				{links.map((link, index) => (
+					<Link
+						onClick={() => setOpen(false)}
+						className="border-b py-5"
+						key={index}
+						href={link.route}
+					>
+						{RichText.asText(link.text)}
 					</Link>
-				)}
-			</div>
-			<div>
-				<button
-					className=" bg-white rounded-md hover:bg-slate-100 px-2 py-4"
-					onClick={() => setOpen((prev) => !prev)}
-				>
-					<HamburgerIcon className="relative" open={open} />
-				</button>
+				))}
 			</div>
 		</div>
 	);
