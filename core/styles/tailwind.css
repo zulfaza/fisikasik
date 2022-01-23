@@ -46,6 +46,10 @@
 		-webkit-box-orient: vertical;
 		@apply overflow-hidden text-ellipsis;
 	}
+
+	.iframe-h-full iframe {
+		@apply h-full;
+	}
 }
 
 @layer utilities {

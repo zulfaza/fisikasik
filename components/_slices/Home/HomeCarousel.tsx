@@ -31,7 +31,7 @@ const HomeCarousel = ({ slice }: Props): JSX.Element => {
 								return (
 									<div
 										key={index}
-										className=" px-2 md:w-max w-full md:h-[530px] text-white cursor-pointer"
+										className=" px-2 rounded-xl overflow-hidden iframe-h-full max-w-7xl md:w-max w-full md:h-[720px] text-white cursor-pointer"
 									>
 										{parse(item.embed)}
 									</div>
@@ -40,7 +40,7 @@ const HomeCarousel = ({ slice }: Props): JSX.Element => {
 							return (
 								<div
 									key={index}
-									className=" px-2 md:w-max w-full md:h-[530px] text-white cursor-pointer"
+									className=" px-2 md:w-max w-full md:h-[720px] text-white cursor-pointer"
 								>
 									<img
 										className="w-full h-full object-cover rounded-xl overflow-hidden"
