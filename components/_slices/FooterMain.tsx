@@ -1,13 +1,16 @@
 import React from 'react';
 import { ImageType, SliceType } from '@core/prismic/client';
-import { RichText } from 'prismic-reactjs';
+import { RichText, RichTextBlock } from 'prismic-reactjs';
 import Link from '@components/_shared/Link';
 import { useRouter } from 'next/router';
 
 interface Props {
 	slice: SliceType;
 }
-
+interface LinkProp {
+	route: string;
+	text: RichTextBlock[];
+}
 const FooterMain = ({ slice }: Props): JSX.Element => {
 	const router = useRouter();
 	const logo: ImageType = slice.primary.logo1;

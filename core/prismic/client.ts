@@ -28,8 +28,6 @@ export const injectWisata = (doc: ContentType) => {
 	const sliceList = ['wisata_sikunang_home'];
 
 	doc.body.forEach((slice, index) => {
-		console.log('Type : ', slice.slice_type, sliceList.includes(slice.slice_type));
-
 		if (sliceList.includes(slice.slice_type)) {
 			promises.push(
 				client
@@ -52,7 +50,6 @@ export const injectWisata = (doc: ContentType) => {
 			res.forEach(({ result, index }) => {
 				doc.body[index].items = result;
 			});
-			console.log(res);
 
 			return doc;
 		});

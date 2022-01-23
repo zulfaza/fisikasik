@@ -72,7 +72,6 @@ export const getStaticPaths = async (): Promise<StaticPaths> => {
 	const paths = docs.map((item) => {
 		return { params: { slug: item.uid } };
 	});
-	console.log('paths', paths);
 
 	return {
 		paths: paths,
