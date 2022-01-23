@@ -3,7 +3,7 @@ import client, { ImageType, NewsDoc, SliceType } from '@core/prismic/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { RichTextBlock } from 'prismic-reactjs';
 
-interface algoliaObject {
+export interface algoliaObject {
 	objectID: string;
 	uid: string;
 	type: string;
@@ -22,7 +22,7 @@ interface algoliaObject {
 	};
 }
 
-export const formatDoc = (doc: NewsDoc) => {
+export const formatDoc = (doc: NewsDoc): algoliaObject => {
 	return {
 		objectID: doc.id,
 		uid: doc.uid,
@@ -78,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 				return artikelIndex.saveObjects(algoliaObjects);
 			})
 			.then(() => {
-				return res.status(200).json({ status: 'update success' });
+				return res.status(200).json({ status: 'index success' });
 			});
 	} catch (err) {
 		return res.status(500).json({ status: 'error', error: err });
