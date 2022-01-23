@@ -14,6 +14,10 @@ import Separator from './Home/Separator';
 import SimpleParagraph from './Home/SimpleParagraph';
 // Wisata
 import WisataList from './Wisata/WisataList';
+
+import SimpleHeading from './SimpleHeading';
+import FloraFauna from './FloraFauna';
+
 const sliceList = {
 	NavbarMain,
 	FooterMain,
@@ -28,5 +32,7 @@ const sliceList = {
 	Separator,
 	SimpleParagraph,
 	WisataList,
+	SimpleHeading,
+	FloraFauna,
 };
 export default sliceList;
