@@ -7,13 +7,19 @@ import { id } from 'date-fns/locale';
 import Link from '@components/_shared/Link';
 import { RichText } from 'prismic-reactjs';
 import Image from 'next/image';
+import { artikelIndex } from '@core/algolia';
 
 const Index = ({ news, layout_content }: StaticProps): JSX.Element => {
+	console.log(news);
+
 	return (
 		<DynamicLayout content={layout_content} title={'Berita Sikunang'}>
 			<h1 className="my-10 text-2xl md:text-4xl font-bold text-center text-black">
 				Artikel dan Berita
 			</h1>
+			<div className="w-full container max-w-4xl">
+				<input type="text" className="w-full h-full shadow border rounded-md px-5 py-3" />
+			</div>
 			<div className="container flex max-w-5xl flex-col">
 				{news.map((berita) => (
 					<BeritaItem berita={berita} key={berita.uid} />
@@ -88,11 +94,15 @@ const BeritaItem = ({ berita }: { berita: NewsDoc }) => {
 
 export interface StaticProps {
 	layout_content: LayoutContentType;
-	news: NewsDoc[];
+	news: any[];
 }
 
 export const getStaticProps = async (): Promise<GetStaticPropsResult<StaticProps>> => {
-	const news = await queryAllNews();
+	const news = await artikelIndex
+		.search('', {
+			hitsPerPage: 5,
+		})
+		.then((res) => res.hits);
 	const layout_content = await queryLayout('main-layout');
 
 	return {

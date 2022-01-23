@@ -18,6 +18,7 @@ export interface algoliaObject {
 		layout: {
 			uid: string;
 		};
+		created_at: string;
 		body: SliceType[];
 	};
 }
@@ -38,6 +39,7 @@ export const formatDoc = (doc: NewsDoc): algoliaObject => {
 			layout: {
 				uid: doc.data.layout.uid,
 			},
+			created_at: doc.data.created_at,
 			body: doc.data.body,
 		},
 	};
