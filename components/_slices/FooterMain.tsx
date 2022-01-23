@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImageType, SliceType } from '@core/prismic/client';
-import { RichText, RichTextBlock } from 'prismic-reactjs';
+import { RichText } from 'prismic-reactjs';
 import Link from '@components/_shared/Link';
 import { useRouter } from 'next/router';
 
@@ -8,17 +8,13 @@ interface Props {
 	slice: SliceType;
 }
 
-interface LinkProp {
-	route: string;
-	text: RichTextBlock[];
-}
 const FooterMain = ({ slice }: Props): JSX.Element => {
 	const router = useRouter();
 	const logo: ImageType = slice.primary.logo1;
 	const Links = slice.items;
 
 	return (
-		<section className="w-full mt-5">
+		<section className="mt-5 w-full">
 			<div className="bg-topografi-pattern flex-cc py-10 shadow-[-4px_-3px_8px_rgb(0,0,0,0.1)]">
 				{logo && (
 					<img
@@ -44,9 +40,9 @@ const FooterMain = ({ slice }: Props): JSX.Element => {
 				</div>
 			</div>
 			<div className="bg-[#F5F5F5] py-7 px-3 text-center md:text-left">
-				<div className="container flex flex-col-reverse md:flex-row justify-between items-center text-black">
+				<div className="container flex flex-col-reverse justify-between items-center text-black md:flex-row">
 					<div>Copyright © 2022 Pemerintah Desa Sikunang</div>
-					<div className="flex flex-col md:flex-row items-center">
+					<div className="flex flex-col items-center md:flex-row">
 						<span className="mr-4">
 							Dalam kerjasama dengan TIM KKN-PPM UGM 2021 JT-102
 						</span>
