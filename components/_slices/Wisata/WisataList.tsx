@@ -7,12 +7,14 @@ interface Props {
 	slice: SliceType;
 }
 
+type wisatasType = {
+	background: ImageType;
+	title: RichTextBlock[];
+	url: string;
+};
+
 const WisataList = ({ slice }: Props): JSX.Element => {
-	const wisatas: {
-		background: ImageType;
-		title: RichTextBlock[];
-		url: string;
-	}[] = slice.items;
+	const wisatas: wisatasType[] = slice.items;
 
 	return (
 		<section className="container mx-auto my-10 w-full max-w-6xl">
@@ -20,20 +22,25 @@ const WisataList = ({ slice }: Props): JSX.Element => {
 				return (
 					<div
 						key={index}
-						className="relative overflow-hidden h-64 first:rounded-t-xl last:rounded-b-xl"
+						className="overflow-hidden h-64 first:rounded-t-xl last:rounded-b-xl"
+						style={{
+							background: `url(${wisata.background.url})`,
+							backgroundRepeat: 'no-repeat',
+							backgroundAttachment: 'fixed',
+							backgroundSize: 'cover',
+							backgroundPosition: 'center',
+						}}
 					>
-						<img
-							className="absolute object-cover top-0 left-0 z-10 w-full h-full"
-							src={wisata.background.url}
-							alt=""
-						/>
-						<div className="relative flex-cc z-20 w-full h-full">
-							<Link href={wisata.url}>
-								<h2 className="text-4xl font-bold text-white uppercase drop-shadow-xl md:text-6xl">
+						<Link href={wisata.url} className="full">
+							<div className="relative flex-cc z-20 w-full h-full">
+								<h2
+									className="text-4xl font-bold text-white uppercase drop-shadow-xl md:text-6xl"
+									style={{ textShadow: '0 0 32px #0005' }}
+								>
 									{RichText.asText(wisata.title)}
 								</h2>
-							</Link>
-						</div>
+							</div>
+						</Link>
 					</div>
 				);
 			})}
