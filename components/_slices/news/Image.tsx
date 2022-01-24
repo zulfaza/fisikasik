@@ -10,8 +10,8 @@ const Image = ({ slice }: Props): JSX.Element => {
 	const image: ImageType = slice.primary.body1;
 	const description = slice.primary.description;
 	return (
-		<div className="flex-cc mb-10">
-			<div>
+		<div className="flex-cc px-8 mx-16 my-8">
+			<div className="">
 				<img src={image.url} alt={image.alt} />
 				<p className="text-xs md:text-sm my-3 text-[#6C6C6C]">
 					{RichText.asText(description)}
