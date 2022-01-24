@@ -24,7 +24,7 @@ const Index = ({ layout_content }: StaticProps): JSX.Element => {
 
 		publicArtikelIndex
 			.search(Query, {
-				hitsPerPage: 1,
+				hitsPerPage: 10,
 				page: PageNumber,
 			})
 			.then((res) => {
