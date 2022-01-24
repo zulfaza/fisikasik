@@ -3,6 +3,7 @@ import { NewsDoc, SliceType } from '@core/prismic/client';
 import Link from '@components/_shared/Link';
 import formatDistance from 'date-fns/formatDistance';
 import { id } from 'date-fns/locale';
+
 interface Props {
 	slice: SliceType;
 }
@@ -17,14 +18,14 @@ export const BeritaItem = ({ berita }: { berita: NewsDoc }): JSX.Element => {
 		<div className="md:max-w-[270px] w-full group mb-10">
 			<Link href={`/artikel/${berita.uid}`}>
 				<img
-					className="overflow-hidden transform scale-100 group-hover:scale-105 transition-transform rounded-lg w-full md:h-44 object-cover"
+					className="object-cover overflow-hidden w-full rounded-lg transition-transform transform scale-100 group-hover:scale-105 md:h-44"
 					src={berita.data.thumbnail.url}
 					alt={berita.data.thumbnail.url}
 				/>
 			</Link>
 			<div className="my-2 md:my-4">
 				<Link
-					className="font-bold group-hover:underline transition-all"
+					className="font-bold transition-all group-hover:underline"
 					href={`/artikel/${berita.uid}`}
 				>
 					{berita.data.html_title}
@@ -55,8 +56,8 @@ const BeritaLain = ({ slice }: Props): JSX.Element => {
 		<>
 			<hr className="border-[#C4C4C4] my-6" />
 			<section className="container w-full">
-				<h2 className="font-bold text-black text-2xl mb-8">Berita Lainnya</h2>
-				<div className="flex flex-col md:flex-row justify-between items-center">
+				<h2 className="mb-8 text-2xl font-bold text-black">Berita Lainnya</h2>
+				<div className="flex flex-col justify-between items-center md:flex-row">
 					{Beritas.map((berita) => (
 						<BeritaItem berita={berita} key={berita.id} />
 					))}

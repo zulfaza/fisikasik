@@ -131,6 +131,25 @@ export const queryAllWisata = async (): Promise<NewsDoc[]> => {
 	});
 };
 
+export const queryProduk = async (slug: string): Promise<any> => {
+	return client
+		.getByUID('produk', slug)
+		.then((res) => res.data)
+		.catch((err) => {
+			console.log(err);
+			return null;
+		});
+};
+
+export const queryAllProduk = async (): Promise<NewsDoc[]> => {
+	return client.getAllByType('produk', {
+		orderings: {
+			field: 'document.created_at',
+			direction: 'desc',
+		},
+	});
+};
+
 export const queryNews = async (slug: string): Promise<NewsType> => {
 	return client
 		.getByUID('news', slug)
