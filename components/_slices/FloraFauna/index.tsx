@@ -15,8 +15,8 @@ const FloraFauna = ({ slice }: Props): JSX.Element => {
 	} = slice.primary;
 
 	return (
-		<section className="my-10 bg-white w-full">
-			<div className="container">
+		<section className="my-10 w-full bg-white">
+			<div className="container max-w-[1000px]">
 				<div
 					className={`flex flex-col ${
 						primary.position === 'Left' ? 'md:flex-row' : 'md:flex-row-reverse'
@@ -28,14 +28,14 @@ const FloraFauna = ({ slice }: Props): JSX.Element => {
 						}`}
 					>
 						<img
-							className="max-w-[288px] max-h-72 overflow-hidden rounded-full object-cover w-full h-full"
+							className="max-w-[288px] aspect-square max-h-72 overflow-hidden rounded-full object-cover w-full h-full"
 							src={primary.image.url}
 							alt={primary.image.alt}
 						/>
 					</div>
 					<div>
 						<div>
-							<h3 className="font-bold mb-5 text-black text-4xl">
+							<h3 className="mb-5 text-4xl font-bold text-black">
 								{RichText.asText(primary.title)}
 							</h3>
 						</div>
