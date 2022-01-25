@@ -14,6 +14,7 @@ import Separator from './Home/Separator';
 import SimpleParagraph from './Home/SimpleParagraph';
 // Wisata
 import WisataList from './Wisata/WisataList';
+import Map from './Wisata/Map';
 
 import SimpleHeading from './SimpleHeading';
 import FloraFauna from './FloraFauna';
@@ -34,5 +35,6 @@ const sliceList = {
 	WisataList,
 	SimpleHeading,
 	FloraFauna,
+	Map,
 };
 export default sliceList;
