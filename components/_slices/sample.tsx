@@ -5,6 +5,7 @@ interface Props {
 	slice: SliceType;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SliceName = ({ slice }: Props): JSX.Element => {
 	return (
 		<section className="flex-cc w-full">
