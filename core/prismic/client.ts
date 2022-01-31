@@ -71,7 +71,7 @@ export const injectOtherNews = async (doc: NewsDoc | PageDoc): Promise<NewsType 
 	const promises = [];
 
 	doc.data.body.forEach((slice, index) => {
-		const jumlah = slice.primary.jumlah_berita;
+		const jumlah = slice.primary.jumlah_berita ?? 10;
 		switch (slice.slice_type) {
 			case 'berita_lain':
 				promises.push(
