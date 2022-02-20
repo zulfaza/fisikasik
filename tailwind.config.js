@@ -2,22 +2,23 @@ module.exports = {
 	mode: 'jit',
 	content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
 	theme: {
+		container: {
+			padding: {
+				DEFAULT: '5%',
+				sm: '32px',
+			},
+		},
 		extend: {
 			colors: {
-				primary: '#3b3b3b',
-				accent: '#FF5B14',
-				info: '#2DA7FB',
-				warning: '#FFCB11',
-				danger: '#ec4141',
-				success: '#67db8e',
+				primary: '#4A5781',
+				'primary-text': '#252B42',
+				secondary: '#FF6551',
 			},
 			fontFamily: {
-				main: 'Poppins, sans-serif',
-				inter: 'Inter, sans-serif',
+				main: 'Montserrat, sans-serif',
 			},
 			backgroundImage: {
-				'topografi-pattern': "url('/Background/Topografi.svg')",
-				flower: "url('/images/bunga-1.svg')",
+				hero: "url('/Images/hero-background.png')",
 			},
 			screens: {
 				'-2xl': { raw: '(max-width: 1535px)' },
@@ -25,6 +26,9 @@ module.exports = {
 				'-lg': { raw: '(max-width: 1023px)' },
 				'-md': { raw: '(max-width: 767px)' },
 				'-sm': { raw: '(max-width: 639px)' },
+			},
+			backgroundPosition: {
+				'pos-5': '16rem -31rem',
 			},
 		},
 	},

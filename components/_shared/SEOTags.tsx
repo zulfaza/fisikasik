@@ -3,10 +3,10 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 const DEFAULT = {
-	sitename: 'Sikunang',
+	sitename: 'FisikAsik',
 	domain: 'http://my-site.com/',
-	description: 'Sikunang',
-	image: 'https://images.prismic.io/desa-sikunang/9ec9f797-e402-41c4-8988-b1cfcd68affb_image+2.png?auto=compress,format',
+	description: 'Belajar lebih seru dan asik bersama FisikAsik',
+	image: 'https://images.prismic.io/fisikasik/488a5d98-d677-4a52-b7c9-9be1d698c25b_Cover.png?auto=compress,format',
 };
 
 const SEOTags = (props: any) => {

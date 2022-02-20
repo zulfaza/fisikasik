@@ -13,7 +13,7 @@ interface Props {
 }
 
 const DynamicLayout = ({ children, content, title }: Props): JSX.Element => {
-	const [minHeight, upperRef, lowerRef] = useClearance();
+	const [clearance, upperRef, lowerRef] = useClearance();
 	const { AlertValue } = useLayout();
 
 	const childrenPosition = content.body.findIndex((slice) => slice.slice_type === 'children');
@@ -28,7 +28,7 @@ const DynamicLayout = ({ children, content, title }: Props): JSX.Element => {
 				))}
 			</header>
 
-			<main style={{ minHeight }} className="flex-sc col">
+			<main style={{ minHeight: clearance }} className="flex-sc col">
 				{children}
 			</main>
 
