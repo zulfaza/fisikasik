@@ -14,14 +14,14 @@ const Hero = ({ slice }: { slice: SliceType }) => {
 	return (
 		<div className="w-full h-full bg-no-repeat bg-contain">
 			<div className="w-full bg-primary text-white">
-				<div className="container py-10 max-w-2xl flex-cc flex-col">
-					<h1 className="text-white mb-10 text-center font-bold text-6xl">
+				<div className="container py-20 max-w-2xl flex-cc flex-col">
+					<h1 className="text-white mb-5 md:mb-10 text-center font-bold text-4xl md:text-6xl">
 						{primary.title && RichText.asText(primary.title)}
 					</h1>
 					<h2>{primary.subtitle && RichText.asText(primary.subtitle)}</h2>
 					<div className="mt-6">
 						<Link
-							className="bg-secondary transition-all hover:bg-red-500 hover:rounded rounded-md py-4 px-5"
+							className="bg-secondary transition-all hover:bg-red-500 hover:rounded rounded-md py-2 md:py-4 px-5"
 							href={primary.cta_url}
 						>
 							{primary.cta_text}

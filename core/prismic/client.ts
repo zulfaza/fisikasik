@@ -23,154 +23,62 @@ export const queryLayout = (uid: string): Promise<LayoutContentType> => {
 		.catch(() => null);
 };
 
-export const injectWisata = (doc: ContentType) => {
+const injectMateri = async (doc: any): Promise<MateriType> => {
+	const sliceList = ['materi'];
 	const promises = [];
-	const sliceList = ['wisata_sikunang_home'];
 
-	doc.body.forEach((slice, index) => {
+	doc.data.body.forEach((slice, index) => {
 		if (sliceList.includes(slice.slice_type)) {
 			promises.push(
 				client
-					.getAllByType('wisata', {
+					.getByType('materi', {
 						orderings: {
-							field: 'document.created_at',
+							field: 'document.first_publication_date',
 							direction: 'desc',
 						},
+						pageSize: 100,
 					})
 					.then((res) => ({
-						result: res,
+						result: res.results,
 						index: index,
 					}))
 			);
 		}
 	});
 
-	if (promises.length > 0)
-		return Promise.all(promises).then((res) => {
-			res.forEach(({ result, index }) => {
-				doc.body[index].items = result;
-			});
-
-			return doc;
+	return Promise.all(promises).then((res) => {
+		res.forEach(({ result, index }) => {
+			doc.data.body[index].items = result;
 		});
-
-	return doc;
+		return doc.data;
+	});
 };
 
+export const queryMateriBySlug = (slug: string): Promise<MateriType> => {
+	return client
+		.getByUID('materi', slug)
+		.then((res) => res.data)
+		.catch(() => null);
+};
 export const queryPageByRoute = (route: string): Promise<ContentType> => {
 	return client
 		.getSingle('pages', {
 			predicates: [Prismic.predicate.at('my.pages.route', route)],
 		})
-		.then((res: NewsDoc) => injectOtherNews(res))
-		.then((res: ContentType) => injectWisata(res))
+		.then((res) => injectMateri(res))
 		.catch(() => null);
-};
-
-export const injectOtherNews = async (doc: NewsDoc | PageDoc): Promise<NewsType | ContentType> => {
-	const promises = [];
-
-	doc.data.body.forEach((slice, index) => {
-		const jumlah = slice.primary.jumlah_berita ?? 10;
-		switch (slice.slice_type) {
-			case 'berita_lain':
-				promises.push(
-					client
-						.getAllByType('news', {
-							pageSize: jumlah,
-							predicates: [Prismic.predicate.not('document.id', doc.id)],
-						})
-						.then((res) => ({
-							result: res,
-							index: index,
-						}))
-				);
-				break;
-			case 'recent_artikel':
-				promises.push(
-					client
-						.getAllByType('news', {
-							pageSize: jumlah,
-						})
-						.then((res) => ({
-							result: res,
-							index: index,
-						}))
-				);
-				break;
-			default:
-				break;
-		}
-	});
-
-	return Promise.all(promises).then((res) => {
-		res.forEach((resdoc: { result: NewsDoc[]; index: number }) => {
-			doc.data.body[resdoc.index].items = resdoc.result;
-		});
-
-		return doc.data;
-	});
-};
-
-export const queryWisata = async (slug: string): Promise<any> => {
-	return client
-		.getByUID('wisata', slug)
-		.then((res) => res.data)
-		.catch((err) => {
-			console.log(err);
-			return null;
-		});
-};
-
-export const queryAllWisata = async (): Promise<NewsDoc[]> => {
-	return client.getAllByType('wisata', {
-		orderings: {
-			field: 'document.created_at',
-			direction: 'desc',
-		},
-	});
-};
-
-export const queryProduk = async (slug: string): Promise<any> => {
-	return client
-		.getByUID('produk', slug)
-		.then((res) => res.data)
-		.catch((err) => {
-			console.log(err);
-			return null;
-		});
-};
-
-export const queryAllProduk = async (): Promise<NewsDoc[]> => {
-	return client.getAllByType('produk', {
-		orderings: {
-			field: 'document.created_at',
-			direction: 'desc',
-		},
-	});
-};
-
-export const queryNews = async (slug: string): Promise<NewsType> => {
-	return client
-		.getByUID('news', slug)
-		.then((res: NewsDoc) => injectOtherNews(res))
-		.catch((err) => {
-			console.log(err);
-			return null;
-		});
-};
-
-export const queryAllNews = async (): Promise<NewsDoc[]> => {
-	return client.getAllByType('news', {
-		orderings: {
-			field: 'document.created_at',
-			direction: 'desc',
-		},
-	});
 };
 
 export const queryAllPages = async (): Promise<PageDoc[]> => {
 	return client.getAllByType('pages', {
+		orderings: {
+			field: 'document.created_at',
+			direction: 'desc',
+		},
+	});
+};
+export const queryAllMateri = async (): Promise<MateriDoc[]> => {
+	return client.getAllByType('materi', {
 		orderings: {
 			field: 'document.created_at',
 			direction: 'desc',
@@ -198,19 +106,28 @@ export interface ContentType extends DataInterface {
 	layout: { uid: string };
 }
 
+export interface MateriDoc extends prismicT.PrismicDocument {
+	data: MateriType;
+}
+export interface MateriType extends DataInterface {
+	jurusan: string;
+	kelas: string;
+	materi_description: RichTextBlock[];
+	first_materi_url: prismicT.FilledLinkToDocumentField;
+	overview_url: string;
+	overview_description: RichTextBlock[];
+	quiz_url: string;
+	quiz_description: RichTextBlock[];
+	semester: string;
+	title: RichTextBlock[];
+	video_group: {
+		video_item: prismicT.PrismicDocument;
+	}[];
+	body: SliceType[];
+}
+
 export interface PageDoc extends prismicT.PrismicDocument {
 	data: ContentType;
-}
-export interface WisataType extends DataInterface {
-	html_title: string;
-	body: SliceType[];
-	layout: { uid: string };
-	created_at: string | null;
-	ringkasan: RichTextBlock[];
-	thumbnail: ImageType;
-}
-export interface WisataDoc extends prismicT.PrismicDocument {
-	data: WisataType;
 }
 export interface ImageType {
 	dimensions: {
@@ -221,20 +138,6 @@ export interface ImageType {
 	copyright: string | null;
 	url: string;
 }
-export interface NewsType extends DataInterface {
-	html_title: string;
-	ringkasan: RichTextBlock[];
-	body?: SliceType[];
-	created_at: string;
-	thumbnail: ImageType;
-	author: string;
-	layout: { uid: string };
-}
-
-export interface NewsDoc extends prismicT.PrismicDocument {
-	data: NewsType;
-}
-
 export interface LayoutContentType {
 	body: SliceType[];
 }

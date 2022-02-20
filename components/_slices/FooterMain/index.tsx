@@ -80,10 +80,8 @@ const SocialMediaIcon = ({
 
 const FooterMain = ({ slice }: Props): JSX.Element => {
 	const {
-		address,
 		logo,
 	}: {
-		address: RichTextBlock[];
 		logo: ImageType;
 	} = slice.primary;
 	return (

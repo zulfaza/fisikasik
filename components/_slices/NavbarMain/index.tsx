@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
-import { ImageType, SliceType } from '@core/prismic/client';
-import { RichText, RichTextBlock } from 'prismic-reactjs';
-import Link from '@components/_shared/Link';
-import { useRouter } from 'next/router';
+import React from 'react';
+import { SliceType } from '@core/prismic/client';
 import useResize from '@core/hooks/useResize';
 import NavbarDesktop from './NavbarDesktop';
 import MobileNav from './MobileNav';

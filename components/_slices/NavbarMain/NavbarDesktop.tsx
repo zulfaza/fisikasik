@@ -1,8 +1,8 @@
 import Link from '@components/_shared/Link';
 import { ImageType, SliceType } from '@core/prismic/client';
 import { useRouter } from 'next/router';
-import { RichText, RichTextBlock } from 'prismic-reactjs';
-import React, { useState } from 'react';
+import { RichText } from 'prismic-reactjs';
+import React from 'react';
 
 interface Props {
 	slice: SliceType;

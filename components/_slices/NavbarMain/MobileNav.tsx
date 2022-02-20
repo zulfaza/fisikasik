@@ -33,7 +33,7 @@ const MobileNav = ({ slice }: Props): JSX.Element => {
 	return (
 		<div className="fixed z-50 w-full bg-primary border-b shadow-lg">
 			<div className="flex w-full  py-4 px-5 items-center justify-between">
-				<div>
+				<div className="h-8 flex">
 					<Link className="h-full" href="/">
 						<img className="h-full" src={logo1.url} alt={logo1.alt} />
 					</Link>
@@ -44,7 +44,7 @@ const MobileNav = ({ slice }: Props): JSX.Element => {
 
 				<div>
 					<button
-						className=" bg-primary rounded-md hover:bg-blue-800 px-2 py-4"
+						className=" bg-primary text-white rounded-md hover:bg-grey-900 hover:bg-opacity-50 px-2 py-4"
 						onClick={() => setOpen((prev) => !prev)}
 					>
 						<HamburgerIcon className="relative" open={open} />
@@ -54,20 +54,18 @@ const MobileNav = ({ slice }: Props): JSX.Element => {
 			<div
 				className={` ${
 					open ? 'translate-x-0' : 'translate-x-full'
-				} w-screen overflow-hidden h-screen transition-all bg-primary flex flex-col absolute top-18 p-5 left-0`}
+				} w-screen overflow-hidden h-screen transition-all bg-primary text-white flex flex-col absolute top-18 p-5 left-0`}
 			>
-				{slice.items
-					.filter((link) => link.position === 'Left')
-					.map((link, index) => (
-						<Link
-							onClick={() => setOpen(false)}
-							className="border-b py-5"
-							key={index}
-							href={link.route}
-						>
-							{RichText.asText(link.text)}
-						</Link>
-					))}
+				{slice.items.map((link, index) => (
+					<Link
+						onClick={() => setOpen(false)}
+						className="border-b py-5 text-white"
+						key={index}
+						href={link.route}
+					>
+						{RichText.asText(link.text)}
+					</Link>
+				))}
 			</div>
 		</div>
 	);

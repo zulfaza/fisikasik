@@ -126,6 +126,14 @@
 	.stroked {
 		-webkit-text-stroke: 0.4px;
 	}
+
+	.clamp-2 {
+		display: -webkit-box !important;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		white-space: normal;
+		overflow: hidden;
+	}
 }
 
 @layer base {

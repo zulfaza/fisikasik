@@ -1,4 +1,3 @@
-import Link from '@components/_shared/Link';
 import { ImageType, SliceType } from '@core/prismic/client';
 import { RichText, RichTextBlock } from 'prismic-reactjs';
 import React from 'react';
@@ -7,29 +6,35 @@ const Developer = ({ slice }: { slice: SliceType }) => {
 	const primary: {
 		description: RichTextBlock[];
 		title: RichTextBlock[];
+		id: string;
 	} = slice.primary;
-	console.log(slice);
 
 	return (
 		<section className="w-full my-5">
 			<div className="container w-full flex-ss flex-col">
-				<h2 className="font-bold text-4xl mb-5 text-primary-text">
+				<h2
+					id={primary?.id?.length > 0 ? primary.id : null}
+					className="font-bold text-4xl mb-5 text-primary-text"
+				>
 					{RichText.asText(primary.title)}
 				</h2>
 				<div className=" max-w-2xl w-full">{RichText.render(primary.description)}</div>
 			</div>
-			<div className="container flex justify-evenly my-5">
+			<div className="container flex flex-col md:flex-row justify-center items-center md:justify-evenly my-5 gap-10">
 				{slice.items.map(
-					(item: {
-						github: string | null;
-						instagram: string | null;
-						linkedin: string | null;
-						name: RichTextBlock[];
-						photo: ImageType;
-						title: RichTextBlock[];
-						youtube: string | null;
-					}) => (
-						<div className="mr-5 rounded-2xl overflow-hidden shadow-lg">
+					(
+						item: {
+							github: string | null;
+							instagram: string | null;
+							linkedin: string | null;
+							name: RichTextBlock[];
+							photo: ImageType;
+							title: RichTextBlock[];
+							youtube: string | null;
+						},
+						index: number
+					) => (
+						<div key={index} className="mr-5 rounded-2xl overflow-hidden shadow-lg">
 							<div>
 								<img
 									className="h-[231px] object-cover w-[238px] overflow-hidden"
