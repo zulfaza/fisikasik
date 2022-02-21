@@ -44,8 +44,9 @@ const MateriPage = ({ content, layout_content }: StaticProps): JSX.Element => {
 						Menu Materi: {RichText.asText(content.title)}
 					</h1>
 					<div className="md:my-20 my-10 flex items-center justify-between flex-col md:flex-row">
-						{cards.map((item) => (
+						{cards.map((item, index) => (
 							<div
+								key={index}
 								className={`bg-primary ${
 									item.disabled ? 'opacity-50' : ''
 								} flex flex-col justify-between mb-5 w-full md:w-64 h-80 rounded-lg p-7 pt-4`}

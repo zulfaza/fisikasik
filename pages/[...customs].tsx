@@ -44,9 +44,9 @@ interface StaticPaths {
 
 export const getStaticPaths = async (): Promise<StaticPaths> => {
 	const docs = await queryAllPages();
-
+	const excludeRoute = ['/', '/dashboard'];
 	const paths = docs
-		.filter((doc) => doc.data.route !== '/')
+		.filter((doc) => !excludeRoute.includes(doc.data.route))
 		.map((doc) => {
 			const customs = doc.data.route.split('/').filter((item) => item);
 			return { params: { customs } };
