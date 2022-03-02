@@ -7,6 +7,10 @@ import Developer from './Developer';
 import LoginForm from './LoginForm';
 import Annountment from './Annountment';
 import Materi from './Materi';
+import SimpleTitle from './SimpleTitle';
+import Paragraph from './Paragraph';
+import SimpleButton from './SimpleButton';
+import Form from './Form';
 
 // Your slice_type (snake_case) must be the same with the Component's name (PascalCase)
 // example: 'hero_landing' will render <HeroLanding />
@@ -23,6 +27,10 @@ const sliceList = {
 	LoginForm,
 	Annountment,
 	Materi,
+	SimpleTitle,
+	Paragraph,
+	SimpleButton,
+	Form,
 };
 
 export default sliceList;

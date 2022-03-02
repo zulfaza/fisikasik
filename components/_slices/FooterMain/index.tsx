@@ -87,8 +87,9 @@ const FooterMain = ({ slice }: Props): JSX.Element => {
 	return (
 		<footer className="flex-cc w-full bg-primary mt-5">
 			<div className="container flex-bc py-4">
-				<div className="">
+				<div className="flex items-center">
 					<img className="h-16" src={logo.url} alt={logo.alt} />
+					<span className="text-white ml-5">© 2022 FisikAsik by Fikri Nathiq</span>
 				</div>
 				<div className="flex justify-center md:justify-start gap-1">
 					{slice.items.map((sosmed, index) => (

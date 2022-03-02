@@ -5,6 +5,7 @@ import ProgressBar from 'nextjs-progressbar';
 import ContextProvider from '@core/contexts/app';
 
 import '@core/styles/tailwind.css';
+import AuthProvider from '@core/contexts/firebase/AuthContext';
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
 	return (
@@ -21,7 +22,9 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
 				options={{ showSpinner: false }}
 			/>
 			<ContextProvider>
-				<Component {...pageProps} />
+				<AuthProvider>
+					<Component {...pageProps} />
+				</AuthProvider>
 			</ContextProvider>
 		</>
 	);

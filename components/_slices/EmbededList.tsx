@@ -4,8 +4,6 @@ import { RichText } from 'prismic-reactjs';
 import React from 'react';
 
 const EmbededList = ({ slice }: { slice: SliceType }) => {
-	console.log(slice);
-
 	return (
 		<section className="my-5 embed container">
 			<div className="header w-full">{RichText.render(slice.primary.title)}</div>

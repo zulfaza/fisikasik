@@ -1,8 +1,8 @@
 import * as Prismic from '@prismicio/client';
 import * as prismicT from '@prismicio/types';
 import { RichTextBlock } from 'prismic-reactjs';
-
-const apiEndpoint = Prismic.getEndpoint(process.env.PRISMIC_API);
+const projectId = process.env.PRISMIC_API ?? 'fisikasik';
+const apiEndpoint = Prismic.getEndpoint(projectId);
 const accessToken = process.env.NEXT_PUBLIC_PRISMIC_TOKEN || '';
 
 const client = Prismic.createClient(apiEndpoint, { accessToken });
@@ -54,9 +54,23 @@ const injectMateri = async (doc: any): Promise<MateriType> => {
 	});
 };
 
-export const queryMateriBySlug = (slug: string): Promise<MateriType> => {
+export const queryMateriBySlug = (slug: string): Promise<MateriDoc> => {
 	return client
 		.getByUID('materi', slug)
+		.then((res) => res)
+		.catch(() => null);
+};
+
+export const queryVideoBySlug = (slug: string): Promise<VideoDoc> => {
+	return client
+		.getByUID('videos', slug)
+		.then((res) => res)
+		.catch(() => null);
+};
+
+export const queryPopup = (slug: string): Promise<any> => {
+	return client
+		.getByUID('popups', slug)
 		.then((res) => res.data)
 		.catch(() => null);
 };
@@ -109,11 +123,31 @@ export interface ContentType extends DataInterface {
 export interface MateriDoc extends prismicT.PrismicDocument {
 	data: MateriType;
 }
+
+export interface extendMater extends prismicT.FilledLinkToDocumentField {
+	isLastVideo?: boolean;
+	last_video?: string;
+	isSubmitKesimpulan?: boolean;
+	isSubmitKuis?: boolean;
+}
+export interface VideoType extends DataInterface {
+	materi: extendMater;
+	next_video: prismicT.FilledLinkToDocumentField;
+	popup_group: {
+		popup: prismicT.FilledLinkToDocumentField;
+	}[];
+	title: RichTextBlock[];
+	video_url: string;
+}
+export interface VideoDoc extends prismicT.PrismicDocument {
+	data: VideoType;
+}
 export interface MateriType extends DataInterface {
 	jurusan: string;
 	kelas: string;
 	materi_description: RichTextBlock[];
 	first_materi_url: prismicT.FilledLinkToDocumentField;
+	kesimpulan_url: prismicT.FilledLinkToDocumentField;
 	overview_url: string;
 	overview_description: RichTextBlock[];
 	quiz_url: string;
@@ -129,6 +163,24 @@ export interface MateriType extends DataInterface {
 export interface PageDoc extends prismicT.PrismicDocument {
 	data: ContentType;
 }
+
+export interface PopupType extends DataInterface {
+	answer_value: string;
+	duration: number;
+	options: {
+		label: string;
+		value: string;
+	}[];
+	questions: RichTextBlock[];
+	timestamp: string;
+	title: RichTextBlock[];
+	video: prismicT.FilledLinkToDocumentField;
+}
+
+export interface PopupDoc extends prismicT.PrismicDocument {
+	data: PopupType;
+}
+
 export interface ImageType {
 	dimensions: {
 		width: number;
