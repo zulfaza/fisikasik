@@ -29,9 +29,11 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 	const content = useMemo(() => MateriDoc.data, [MateriDoc]);
 	const [Cards, setCards] = useState<CardType[]>([]);
 	const { currentUser } = useAuth();
+	const [IsComplate, setIsComplate] = useState(false);
 
 	useEffect(() => {
 		const materiId = MateriDoc.id;
+
 		const uid = currentUser.uid;
 		const data = {
 			materiId,
@@ -42,10 +44,11 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 			const videoDoc: VideoDoc = res.data.data;
 			const data = videoDoc.data;
 			let MateriUrl: string;
+			let activeKuis = false;
 
-			if (data.materi.isLastVideo && !data.materi.isSubmitKesimpulan) {
+			if (data?.materi?.isLastVideo && !data.materi.isSubmitKesimpulan) {
 				MateriUrl = `/${content.kesimpulan_url.uid}`;
-			} else if (data.materi.last_video) {
+			} else if (data?.materi?.last_video) {
 				MateriUrl = `/video/${videoDoc.uid}`;
 			} else if (content.first_materi_url?.uid) {
 				MateriUrl = `/video/${content.first_materi_url.uid}`;
@@ -53,11 +56,14 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 				MateriUrl = '';
 			}
 
+			if (data?.materi?.isSubmitKesimpulan) activeKuis = true;
+			if (data?.materi?.isSubmitKuis) setIsComplate(true);
+
 			const cards: CardType[] = [
 				{
 					title: 'Overview',
 					description: content.overview_description,
-					cta_text: 'simak',
+					cta_text: 'Simak',
 					cta_url: content.overview_url,
 					disabled: false,
 				},
@@ -72,8 +78,8 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 					title: 'Latihan Soal',
 					description: content.quiz_description,
 					cta_text: 'Kerjain Kuis',
-					cta_url: content.quiz_url,
-					disabled: true,
+					cta_url: `/${content.quiz_url.uid}`,
+					disabled: !activeKuis,
 				},
 			];
 			setCards(cards);
@@ -116,6 +122,14 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 							))}
 						</div>
 					</div>
+					{IsComplate && (
+						<div className="container my-5">
+							<h2 className="text-left my-20 font-bold text-4xl text-black">
+								List Video
+							</h2>
+							{}
+						</div>
+					)}
 				</section>
 			</DynamicLayout>
 		</UserOnlyRoute>

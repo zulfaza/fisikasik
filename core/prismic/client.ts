@@ -150,7 +150,7 @@ export interface MateriType extends DataInterface {
 	kesimpulan_url: prismicT.FilledLinkToDocumentField;
 	overview_url: string;
 	overview_description: RichTextBlock[];
-	quiz_url: string;
+	quiz_url: prismicT.FilledLinkToDocumentField;
 	quiz_description: RichTextBlock[];
 	semester: string;
 	title: RichTextBlock[];

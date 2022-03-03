@@ -9,7 +9,7 @@ import FormComponent, { FormSliceType } from '@components/_layouts/FormComponent
 const Form = ({ slice }: { slice: SliceType }) => {
 	const [LoadCount, setLoadCount] = useState(0);
 	const { currentUser } = useAuth();
-	const [IsLoading, setIsLoading] = useState(false);
+	const [IsLoading, setIsLoading] = useState(true);
 	const router = useRouter();
 	const primary: FormSliceType = slice.primary;
 
@@ -25,6 +25,7 @@ const Form = ({ slice }: { slice: SliceType }) => {
 				router.push(`/${primary.next_page.uid}`);
 			});
 		}
+		setIsLoading(false);
 		setLoadCount((prev) => prev + 1);
 	};
 

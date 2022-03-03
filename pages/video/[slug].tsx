@@ -67,6 +67,15 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 	}, []);
 
 	useEffect(() => {
+		function ResetState() {
+			setIsLoading(true);
+			setShowNext(false);
+		}
+
+		ResetState();
+	}, [content]);
+
+	useEffect(() => {
 		async function GetPopUp() {
 			const { popup_group } = content;
 			const promises = [];
@@ -111,6 +120,8 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 					materiId: content.materi.id,
 				});
 			});
+			console.log(popups);
+
 			setPopups(popups);
 			setIsLoading(false);
 		}

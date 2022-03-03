@@ -54,10 +54,10 @@ const FormComponent = ({ children, form }: Props) => {
 	}, []);
 
 	if (currentUser) {
-		if (Pass !== null && !Pass) {
-			router.push('/dashboard');
-			return <></>;
-		}
+		// if (Pass !== null && !Pass) {
+		// 	router.push('/dashboard');
+		// 	return <></>;
+		// }
 
 		return <Fragment>{!Loading && children}</Fragment>;
 	}
