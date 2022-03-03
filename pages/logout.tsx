@@ -2,14 +2,14 @@ import { Logout } from '@core/firebase/public';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
-const logout = () => {
-	const router = useRouter();
-
+const LogoutPage = () => {
 	useEffect(() => {
-		Logout().then(() => router.push('/login'));
+		Logout().then(() => {
+			window.location.href = window.location.hostname + '/login';
+		});
 	}, []);
 
 	return <></>;
 };
 
-export default logout;
+export default LogoutPage;
