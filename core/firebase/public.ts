@@ -3,12 +3,12 @@ import { getAuth, signInWithEmailAndPassword, signOut, UserCredential } from 'fi
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyDKXg9l7-qwiCkhqlCghIUpuGklHJmER6w',
-	authDomain: 'fisikasik-beta.firebaseapp.com',
-	projectId: 'fisikasik-beta',
-	storageBucket: 'fisikasik-beta.appspot.com',
-	messagingSenderId: '645735217671',
-	appId: '1:645735217671:web:b1aa92aafff0019359c8a2',
+	apiKey: 'AIzaSyCTLNmhn-e0Y8sjTtaFeUPj6lSQqj-hfj4',
+	authDomain: 'fisikasik-64abe.firebaseapp.com',
+	projectId: 'fisikasik-64abe',
+	storageBucket: 'fisikasik-64abe.appspot.com',
+	messagingSenderId: '861609599305',
+	appId: '1:861609599305:web:8dcb18592660018f4e7a98',
 };
 if (getApps().length <= 0) initializeApp(firebaseConfig);
 
