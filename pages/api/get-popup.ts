@@ -18,13 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const VideoDoc = await VideoRef.get();
 	let data: string[] = [];
-	if (!VideoDoc.exists) {
-		VideoRef.set({
-			last_video: [],
-		});
-	} else {
-		data = VideoDoc.data()?.answered_popup ?? [];
-	}
+	if (VideoDoc.exists) data = VideoDoc.data()?.answered_popup ?? [];
 
 	return res.json({
 		status: 'success',

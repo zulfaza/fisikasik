@@ -30,61 +30,97 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 	const [Cards, setCards] = useState<CardType[]>([]);
 	const { currentUser } = useAuth();
 	const [IsComplate, setIsComplate] = useState(false);
+	const [VideoGroup, setVideoGroup] = useState<VideoDoc[]>([]);
+	useEffect(() => {
+		if (currentUser) {
+			const materiId = MateriDoc.id;
+
+			const uid = currentUser.uid;
+			const data = {
+				materiId,
+				uid,
+			};
+
+			axios.post('/api/firebase/get-materi', data).then((res) => {
+				const videoDoc: VideoDoc = res.data.data;
+				const data = videoDoc.data;
+				let MateriUrl: string;
+				let activeKuis = false;
+
+				if (data?.materi?.isLastVideo && !data.materi.isSubmitKesimpulan) {
+					MateriUrl = `/${content.kesimpulan_url.uid}`;
+				} else if (data?.materi?.last_video) {
+					MateriUrl = `/video/${videoDoc.uid}`;
+				} else if (content.first_materi_url?.uid) {
+					MateriUrl = `/video/${content.first_materi_url.uid}`;
+				} else {
+					MateriUrl = '';
+				}
+
+				if (data?.materi?.isSubmitKesimpulan) activeKuis = true;
+				if (data?.materi?.isSubmitKuis) setIsComplate(true);
+
+				const cards: CardType[] = [
+					{
+						title: 'Overview',
+						description: content.overview_description,
+						cta_text: 'Simak',
+						cta_url: content.overview_url,
+						disabled: false,
+					},
+					{
+						title: 'Materi Video',
+						description: content.materi_description,
+						cta_text: 'Mulai',
+						cta_url: MateriUrl,
+						disabled: false,
+					},
+					{
+						title: 'Latihan Soal',
+						description: content.quiz_description,
+						cta_text: 'Kerjain Kuis',
+						cta_url: `/${content.quiz_url.uid}`,
+						disabled: !activeKuis,
+					},
+				];
+				setCards(cards);
+			});
+		}
+	}, [MateriDoc]);
 
 	useEffect(() => {
-		const materiId = MateriDoc.id;
+		const promises = [];
 
-		const uid = currentUser.uid;
-		const data = {
-			materiId,
-			uid,
-		};
-
-		axios.post('/api/firebase/get-materi', data).then((res) => {
-			const videoDoc: VideoDoc = res.data.data;
-			const data = videoDoc.data;
-			let MateriUrl: string;
-			let activeKuis = false;
-
-			if (data?.materi?.isLastVideo && !data.materi.isSubmitKesimpulan) {
-				MateriUrl = `/${content.kesimpulan_url.uid}`;
-			} else if (data?.materi?.last_video) {
-				MateriUrl = `/video/${videoDoc.uid}`;
-			} else if (content.first_materi_url?.uid) {
-				MateriUrl = `/video/${content.first_materi_url.uid}`;
-			} else {
-				MateriUrl = '';
-			}
-
-			if (data?.materi?.isSubmitKesimpulan) activeKuis = true;
-			if (data?.materi?.isSubmitKuis) setIsComplate(true);
-
-			const cards: CardType[] = [
-				{
-					title: 'Overview',
-					description: content.overview_description,
-					cta_text: 'Simak',
-					cta_url: content.overview_url,
-					disabled: false,
-				},
-				{
-					title: 'Materi Video',
-					description: content.materi_description,
-					cta_text: 'Mulai',
-					cta_url: MateriUrl,
-					disabled: false,
-				},
-				{
-					title: 'Latihan Soal',
-					description: content.quiz_description,
-					cta_text: 'Kerjain Kuis',
-					cta_url: `/${content.quiz_url.uid}`,
-					disabled: !activeKuis,
-				},
-			];
-			setCards(cards);
+		content.video_group.forEach((video) => {
+			promises.push(
+				axios
+					.post('/api/prismic/get-by-id', {
+						id: video.video_item.id,
+					})
+					.then((res) => ({
+						result: res.data,
+						docId: video.video_item.id,
+					}))
+			);
 		});
-	}, [MateriDoc]);
+
+		Promise.all(promises).then((ApiResult) => {
+			const videos = [];
+			ApiResult.forEach((response) => {
+				videos.push({
+					...response.result,
+					id: response.docId,
+				});
+			});
+			setVideoGroup(videos);
+		});
+	}, [content]);
+
+	function getVideoYoutubeId(url: string) {
+		const pattern = /https:\/\/www.youtube.com\/watch\?v\=(.*)|https:\/\/youtu.be\/(.*)/i;
+		const result = url.match(pattern);
+		return result[1] ?? result[2];
+	}
 
 	return (
 		<UserOnlyRoute>
@@ -127,7 +163,25 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 							<h2 className="text-left my-20 font-bold text-4xl text-black">
 								List Video
 							</h2>
-							{}
+							{VideoGroup.map((video) => (
+								<div
+									className="flex flex-col md:flex-row py-5 border-b border-gray-300"
+									key={video.id}
+								>
+									<img
+										className=" w-36 h-24 mb-5 md:mb-0 md:mr-5 object-cover object-center rounded-lg overflow-hidden"
+										src={`https://img.youtube.com/vi/${getVideoYoutubeId(
+											video.data.video_url
+										)}/hqdefault.jpg`}
+										alt=""
+									/>
+									<a href={`/video/${video.uid}`}>
+										<h4 className="font-bold text-black text-xl">
+											{RichText.asText(video.data.title)}
+										</h4>
+									</a>
+								</div>
+							))}
 						</div>
 					)}
 				</section>

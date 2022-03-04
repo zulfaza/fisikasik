@@ -31,14 +31,14 @@ const FormComponent = ({ children, form }: Props) => {
 
 				switch (form.type) {
 					case 'kesimpulan':
-						if (data?.isLastVideo) {
+						if (data?.isLastVideo && !data.isSubmitKesimpulan) {
 							setPass(true);
 						} else {
 							setPass(false);
 						}
 						break;
 					case 'kuis':
-						if (data?.isSubmitKesimpulan) {
+						if (data?.isSubmitKesimpulan && !data.isSubmitKuis) {
 							setPass(true);
 						} else {
 							setPass(false);
@@ -53,16 +53,15 @@ const FormComponent = ({ children, form }: Props) => {
 			});
 	}, []);
 
-	if (currentUser) {
-		// if (Pass !== null && !Pass) {
-		// 	router.push('/dashboard');
-		// 	return <></>;
-		// }
-
-		return <Fragment>{!Loading && children}</Fragment>;
+	if (Loading) {
+		return <></>;
 	}
 
-	router.push('/dashboard');
+	if (currentUser && Pass) {
+		return <Fragment>{children}</Fragment>;
+	}
+	if (currentUser) router.push(`/materi/${form.materi.uid}`);
+	else router.push('/');
 	return <></>;
 };
 

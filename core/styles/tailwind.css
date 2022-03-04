@@ -50,6 +50,46 @@
 	.iframe-h-full iframe {
 		@apply min-h-screen h-full w-full md:w-[1280px];
 	}
+	/********** Range Input Styles **********/
+	/*Range Reset*/
+	input[type='range'] {
+		@apply appearance-none bg-transparent cursor-pointer my-5;
+	}
+
+	/* Removes default focus */
+	input[type='range']:focus {
+		outline: none;
+	}
+
+	/***** Chrome, Safari, Opera and Edge Chromium styles *****/
+	/* slider track */
+	input[type='range']::-webkit-slider-runnable-track {
+		@apply bg-primary h-2 rounded-lg;
+	}
+
+	/* slider thumb */
+	input[type='range']::-webkit-slider-thumb {
+		@apply appearance-none -mt-1 bg-white h-4 w-2;
+	}
+
+	input[type='range']:focus::-webkit-slider-thumb {
+		@apply border border-primary outline outline-primary;
+	}
+
+	/******** Firefox styles ********/
+	/* slider track */
+	input[type='range']::-moz-range-track {
+		@apply bg-primary h-2 rounded-lg;
+	}
+
+	/* slider thumb */
+	input[type='range']::-moz-range-thumb {
+		@apply border-none rounded-none bg-white h-4 w-2;
+	}
+
+	input[type='range']:focus::-moz-range-thumb {
+		@apply border border-primary outline outline-primary;
+	}
 }
 
 @layer utilities {

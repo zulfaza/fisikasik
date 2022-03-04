@@ -9,9 +9,8 @@ import {
 	queryPageByRoute,
 } from '@core/prismic/client';
 import { useAuth } from '@core/contexts/firebase/AuthContext';
-import { User } from 'firebase/auth';
 import UserOnlyRoute from '@core/customRoute/UserOnlyRoute';
-
+import { HiKey } from 'react-icons/hi';
 const Spinning = () => (
 	<svg
 		className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
@@ -36,10 +35,10 @@ const Spinning = () => (
 );
 
 const Dashboard = ({ content, layout_content }: StaticProps): JSX.Element => {
-	const { currentUser = null }: { currentUser: User } = useAuth();
+	const { currentUser = null, IsAdmin } = useAuth();
 	const pattern = /(.*)(XI*\sMIPA\s\d+)\s(\d{4})/i;
 	const arrName = currentUser?.displayName?.match(pattern) ?? [];
-	const name = arrName[1] ?? '-';
+	const name = arrName[1] ?? currentUser.displayName;
 	const kelas = arrName[2] ?? '-';
 	const tahun = arrName[3] ?? '-';
 
@@ -68,7 +67,11 @@ const Dashboard = ({ content, layout_content }: StaticProps): JSX.Element => {
 								<h4 className="text-white">{kelas}</h4>
 								<h4 className="text-white my-5">{tahun}</h4>
 								<div>
-									<img src={`/Images/Basketball.png`} alt="icon" />
+									{IsAdmin ? (
+										<HiKey className="text-white text-lg" />
+									) : (
+										<img src={`/Images/Basketball.png`} alt="icon" />
+									)}
 								</div>
 							</div>
 						</div>

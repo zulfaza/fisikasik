@@ -23,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		last_video: videoId,
 	};
 	if (isLastVideo) data.isLastVideo = true;
-	return MateriRef.set(data)
+	return MateriRef.set(data, { merge: true })
 		.then(() => {
 			return res.json({
 				status: 'success',

@@ -15,7 +15,7 @@ import { RichText } from 'prismic-reactjs';
 import React, { useEffect, useMemo, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { useAuth } from '@core/contexts/firebase/AuthContext';
-import Link from 'next/link';
+import { BsFillPlayFill, BsFillStopFill } from 'react-icons/bs';
 
 export interface PopupTypeTimestampChanged extends PopupType {
 	timestampSecond: number;
@@ -27,8 +27,9 @@ export interface PopupTypeTimestampChanged extends PopupType {
 
 const Video = ({ videoDoc, layout_content }: serverProps) => {
 	const content = useMemo(() => videoDoc.data, [videoDoc]);
-	const { currentUser } = useAuth();
+	const { currentUser, IsAdmin } = useAuth();
 	const [Played, setPlayed] = useState(0);
+	const [MaxPlayed, setMaxPlayed] = useState(0);
 	const [Seeking, setSeeking] = useState(false);
 	const [Player, setPlayer] = useState<any>(null);
 	const [IsLoading, setIsLoading] = useState(true);
@@ -38,38 +39,55 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 	const [CurrentPopUp, setCurrentPopUp] = useState<PopupTypeTimestampChanged>(null);
 	const [ShowNext, setShowNext] = useState(false);
 	const [NextUrl, setNextUrl] = useState('/');
+	const [IsFinished, setIsFinished] = useState(false);
 
 	useEffect(() => {
-		const data: {
-			materiId: string;
-			videoId: string;
-			uid: string;
-			isLastVideo?: boolean;
-		} = {
-			materiId: content.materi.id,
-			videoId: videoDoc.id,
-			uid: currentUser.uid,
-		};
-		if (content.next_video.uid) {
-			switch (content.next_video.type) {
-				case 'pages':
-					setNextUrl(`/${content.next_video.uid}`);
-					data.isLastVideo = true;
-					break;
-				default:
-					setNextUrl(`/video/${content.next_video.uid}`);
-					break;
+		if (currentUser) {
+			const data: {
+				materiId: string;
+				videoId: string;
+				uid: string;
+				isLastVideo?: boolean;
+			} = {
+				materiId: content.materi.id,
+				videoId: videoDoc.id,
+				uid: currentUser.uid,
+			};
+			if (content.next_video.uid) {
+				switch (content.next_video.type) {
+					case 'pages':
+						setNextUrl(`/${content.next_video.uid}`);
+						data.isLastVideo = true;
+						break;
+					default:
+						setNextUrl(`/video/${content.next_video.uid}`);
+						break;
+				}
 			}
+			axios.post('/api/add-last-video', data).then(() => {
+				console.log('Sukses update history');
+			});
+			axios.post('/api/firebase/get-materi', data).then((apiResult) => {
+				const materi = apiResult.data?.data?.data?.materi ?? {};
+				if (materi.isSubmitKuis) setIsFinished(true);
+			});
 		}
-		axios.post('/api/add-last-video', data).then(() => {
-			console.log('Sukses update history');
-		});
 	}, []);
 
 	useEffect(() => {
 		function ResetState() {
 			setIsLoading(true);
 			setShowNext(false);
+			if (content.next_video.uid) {
+				switch (content.next_video.type) {
+					case 'pages':
+						setNextUrl(`/${content.next_video.uid}`);
+						break;
+					default:
+						setNextUrl(`/video/${content.next_video.uid}`);
+						break;
+				}
+			}
 		}
 
 		ResetState();
@@ -77,17 +95,24 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 
 	useEffect(() => {
 		async function GetPopUp() {
+			if (!currentUser) return;
 			const { popup_group } = content;
 			const promises = [];
 
 			popup_group.forEach((item) => {
-				promises.push(axios.post('/api/prismic/get-by-id', { id: item.popup.id }));
+				promises.push(
+					axios
+						.post('/api/prismic/get-by-id', { id: item.popup.id })
+						.then((res) => res.data.data)
+				);
 			});
 
-			const videoDocument = await axios.post('/api/prismic/get-by-id', { id: videoDoc.id });
+			const videoDocument = await axios
+				.post('/api/prismic/get-by-id', { id: videoDoc.id })
+				.then((res) => res.data.data);
 
 			const videoId = videoDoc.id;
-			const materiId = videoDocument.data.materi.id;
+			const materiId = videoDocument.materi.id;
 			const answeredPopups: string[] = await axios
 				.post('/api/get-popup', {
 					materiId,
@@ -100,11 +125,11 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 
 			const result = await Promise.all(promises);
 
-			result.forEach((item: { data: PopupType }, index) => {
+			result.forEach((item: PopupType, index) => {
 				const popupId = popup_group[index].popup.id;
 				let timestampinSecond = 0;
 
-				item.data.timestamp
+				item.timestamp
 					.split(':')
 					.reverse()
 					.forEach((time, index) => {
@@ -112,7 +137,7 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 					});
 
 				popups.push({
-					...item.data,
+					...item,
 					timestampSecond: timestampinSecond,
 					loaded: answeredPopups.includes(popupId),
 					popupId,
@@ -120,7 +145,6 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 					materiId: content.materi.id,
 				});
 			});
-			console.log(popups);
 
 			setPopups(popups);
 			setIsLoading(false);
@@ -146,9 +170,11 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 		if (Duration * (1 - data.played) < 10) setShowNext(true);
 
 		if (!Seeking) setPlayed(data.played);
+
+		if (!Seeking && data.played > MaxPlayed) setMaxPlayed(data.played);
 	}
 
-	const handleSeekMouseDown = () => {
+	const handleSeekMouseDown = (e: any) => {
 		setSeeking(true);
 	};
 
@@ -158,8 +184,16 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 
 	const handleSeekMouseUp = (e: any) => {
 		setSeeking(false);
-		Player.seekTo(parseFloat(e.target.value));
+		const value = e.target.valueAsNumber;
+		if (value < MaxPlayed || IsAdmin) Player.seekTo(parseFloat(value));
 	};
+
+	function formatSeconds(second: number) {
+		const secondInString = second.toString();
+		const secondToInt = parseInt(secondInString);
+		if (secondToInt < 3600) return new Date(secondToInt * 1000).toISOString().substr(14, 5);
+		return new Date(secondToInt * 1000).toISOString().substr(11, 8);
+	}
 
 	return (
 		<UserOnlyRoute>
@@ -176,20 +210,9 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 						<h1 className="text-left my-20 font-bold text-4xl text-black">
 							{RichText.asText(content.title)}
 						</h1>
-						<div>
-							{Played && <span>{Played * Duration}</span>}
-							<input
-								type="range"
-								min={0}
-								max={0.999999}
-								step="any"
-								value={Played}
-								onMouseDown={handleSeekMouseDown}
-								onChange={handleSeekChange}
-								onMouseUp={handleSeekMouseUp}
-							/>
+						<div className=" overflow-hidden relative group">
 							<ReactPlayer
-								controls={true}
+								controls={false}
 								playing={Playing}
 								onPlay={() => setPlaying(true)}
 								onPause={() => setPlaying(false)}
@@ -200,13 +223,61 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 								width="100%"
 								height="720px"
 							/>
+							<div className="flex flex-col w-full absolute -bottom-full group-hover:bottom-0 transition-all p-5 bg-black bg-opacity-50">
+								<input
+									type="range"
+									min={0}
+									max={0.999999}
+									step="any"
+									value={Played}
+									onMouseDown={handleSeekMouseDown}
+									onChange={handleSeekChange}
+									onMouseUp={handleSeekMouseUp}
+								/>
+								<div className="flex justify-between">
+									<div>
+										<button
+											className="text-white text-2xl"
+											onClick={() => setPlaying((prev) => !prev)}
+										>
+											{Playing ? <BsFillPlayFill /> : <BsFillStopFill />}
+										</button>
+									</div>
+									<div>
+										<span className="text-white">
+											{formatSeconds(Played * Duration)}
+										</span>
+										<span className="mx-2 text-white">/</span>
+										<span className="text-white">
+											{formatSeconds(Duration)}
+										</span>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div className="my-10">
-							{ShowNext && (
-								<Link href={NextUrl}>
-									<a className="bg-primary px-5 py-3 rounded text-white">Next</a>
-								</Link>
-							)}
+							<div
+								className={`w-full flex ${
+									IsFinished ? 'justify-between' : 'justify-end'
+								}`}
+							>
+								{IsFinished && (
+									<a
+										href={`/materi/${content.materi.uid}`}
+										className="bg-primary px-5 py-3 rounded text-white"
+									>
+										Prev
+									</a>
+								)}
+								{ShowNext && (
+									<a
+										href={NextUrl}
+										className="bg-primary px-5 py-3 rounded text-white"
+									>
+										Next
+									</a>
+								)}
+							</div>
 						</div>
 					</div>
 				</div>

@@ -16,7 +16,7 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
 		const unsubcribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
 				user.getIdTokenResult().then((res) => {
-					setIsAdmin(res.claims.admin === 'on');
+					if (res.claims.admin) setIsAdmin(true);
 					setCurrentUser(user);
 					setAuthLoading(false);
 				});

@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const { id } = req.body;
-	const popupPrismicData = await client.getByID(id).then((res) => res.data);
+	const popupPrismicData = await client.getByID(id);
 
 	return res.json(popupPrismicData);
 };
