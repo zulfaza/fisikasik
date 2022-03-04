@@ -1,7 +1,7 @@
 import { db } from '@core/firebase/admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const AddLastVideo = async (req: NextApiRequest, res: NextApiResponse) => {
 	const {
 		materiId,
 		videoId,
@@ -36,3 +36,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			});
 		});
 };
+export default AddLastVideo;

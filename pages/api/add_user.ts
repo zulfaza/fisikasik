@@ -1,7 +1,7 @@
 import { auth, db } from '@core/firebase/admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
+const AddUser = (req: NextApiRequest, res: NextApiResponse) => {
 	const { email, password, name } = req.body;
 
 	return auth
@@ -33,3 +33,5 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 			return res.status(500).json(err);
 		});
 };
+
+export default AddUser;

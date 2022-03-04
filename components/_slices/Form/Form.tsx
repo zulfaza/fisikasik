@@ -33,7 +33,7 @@ const Form = ({ slice }: { slice: SliceType }) => {
 		<FormComponent form={primary}>
 			<div className="w-full my-5 ">
 				<OverlayLoading loading={IsLoading} />
-				<div className={`container flex-cc h-full min-h-screen`}>
+				<div className={'container flex-cc h-full min-h-screen'}>
 					<div className="iframe-h-full h-full">
 						<iframe
 							onLoad={handleOnLoad}

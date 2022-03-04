@@ -5,12 +5,10 @@ import UserOnlyRoute from '@core/customRoute/UserOnlyRoute';
 import {
 	LayoutContentType,
 	MateriDoc,
-	MateriType,
 	queryAllMateri,
 	queryLayout,
 	queryMateriBySlug,
 	VideoDoc,
-	VideoType,
 } from '@core/prismic/client';
 import axios from 'axios';
 import { GetStaticPropsResult } from 'next';
@@ -117,7 +115,7 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 	}, [content]);
 
 	function getVideoYoutubeId(url: string) {
-		const pattern = /https:\/\/www.youtube.com\/watch\?v\=(.*)|https:\/\/youtu.be\/(.*)/i;
+		const pattern = /https:\/\/www.youtube.com\/watch\?v=(.*)|https:\/\/youtu.be\/(.*)/i;
 		const result = url.match(pattern);
 		return result[1] ?? result[2];
 	}

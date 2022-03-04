@@ -2,7 +2,7 @@ import { db } from '@core/firebase/admin';
 import client from '@core/prismic/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const GetMateri = async (req: NextApiRequest, res: NextApiResponse) => {
 	const {
 		materiId,
 		uid,
@@ -32,3 +32,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		data: data,
 	});
 };
+
+export default GetMateri;

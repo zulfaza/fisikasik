@@ -1,6 +1,5 @@
 import React from 'react';
 import { ImageType, SliceType } from '@core/prismic/client';
-import { RichText, RichTextBlock } from 'prismic-reactjs';
 import Link from '@components/_shared/Link';
 
 interface Props {

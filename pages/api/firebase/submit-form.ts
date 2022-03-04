@@ -1,7 +1,7 @@
-import { auth, db } from '@core/firebase/admin';
+import { db } from '@core/firebase/admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const SubmitForm = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { uid, materiId, type } = req.body;
 	const UserRef = db.collection('Users').doc(uid);
 	const MateriRef = UserRef.collection('Materi').doc(materiId);
@@ -26,8 +26,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			});
 		})
 		.catch((err) => {
+			console.log(err);
+
 			return res.status(500).json({
 				status: 'error',
 			});
 		});
 };
+
+export default SubmitForm;

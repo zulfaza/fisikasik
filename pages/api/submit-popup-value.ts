@@ -1,9 +1,9 @@
-import { auth, db } from '@core/firebase/admin';
+import { db } from '@core/firebase/admin';
 import client, { PopupDoc } from '@core/prismic/client';
 import { FieldValue } from 'firebase-admin/firestore';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const SubmitPopupValue = async (req: NextApiRequest, res: NextApiResponse) => {
 	const {
 		materiId,
 		videoId,
@@ -70,3 +70,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			return res.status(500).json(err);
 		});
 };
+
+export default SubmitPopupValue;

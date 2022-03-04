@@ -58,7 +58,7 @@ const OverlayPopup = ({ popupData, setPopup, setPopups, setPlaying }: Props) => 
 
 		return axios
 			.post('/api/submit-popup-value', data)
-			.then((res) => {
+			.then(() => {
 				// console.log(res);
 				SetContinue();
 			})

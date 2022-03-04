@@ -174,7 +174,7 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 		if (!Seeking && data.played > MaxPlayed) setMaxPlayed(data.played);
 	}
 
-	const handleSeekMouseDown = (e: any) => {
+	const handleSeekMouseDown = () => {
 		setSeeking(true);
 	};
 
