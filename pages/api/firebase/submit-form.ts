@@ -6,7 +6,10 @@ const SubmitForm = async (req: NextApiRequest, res: NextApiResponse) => {
 	const UserRef = db.collection('Users').doc(uid);
 	const MateriRef = UserRef.collection('Materi').doc(materiId);
 
-	const data: any = {};
+	const data: any = {
+		materiId,
+		uid,
+	};
 	switch (type) {
 		case 'kesimpulan':
 			data.isSubmitKesimpulan = true;

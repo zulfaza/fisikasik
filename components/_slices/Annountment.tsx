@@ -12,7 +12,7 @@ const Annountment = ({ slice }: { slice: SliceType }) => {
 	} = slice.primary;
 
 	return (
-		<div className="max-w-md w-full mb-6 border-4 border-primary rounded-xl">
+		<div className="md:max-w-md w-full mb-6 border-4 border-primary rounded-xl">
 			<div className="border-b border-primary">
 				<div className="px-3 py-2 text-2xl font-semibold">
 					{RichText.asText(primary.title)}

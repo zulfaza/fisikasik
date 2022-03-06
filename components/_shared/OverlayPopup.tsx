@@ -19,7 +19,7 @@ const OverlayPopup = ({ popupData, setPopup, setPopups, setPlaying }: Props) => 
 
 	useEffect(() => {
 		if (popupData) {
-			setTimeLeft(popupData.duration ?? 5);
+			setTimeLeft(popupData.duration ?? 10);
 			setTimer(
 				setInterval(() => {
 					setTimeLeft((prev) => prev - 1);
@@ -29,6 +29,33 @@ const OverlayPopup = ({ popupData, setPopup, setPopups, setPlaying }: Props) => 
 	}, [popupData]);
 
 	useEffect(() => {
+		const handleSelectOption = async (optvalue: string, popup = popupData) => {
+			setIsLoading(true);
+			const data = {
+				materiId: popup.materiId,
+				videoId: popup.videoId,
+				popupId: popup.popupId,
+				value: optvalue,
+				uid: currentUser.uid,
+			};
+
+			return axios
+				.post('/api/submit-popup-value', data)
+				.then(() => {
+					// console.log(res);
+					SetContinue();
+				})
+				.catch((err) => {
+					// console.log(err.response);
+					if (err.response.status) {
+						SetContinue();
+					}
+				})
+				.finally(() => {
+					setIsLoading(false);
+					if (Timer) clearInterval(Timer);
+				});
+		};
 		if (TimeLeft == 0) handleSelectOption('-');
 	}, [TimeLeft]);
 

@@ -28,7 +28,7 @@ const DynamicLayout = ({ children, content, title }: Props): JSX.Element => {
 				))}
 			</header>
 
-			<main style={{ minHeight: clearance }} className="flex-sc col">
+			<main style={{ minHeight: clearance }} className="flex-sc py-16 md:py-0 col">
 				{children}
 			</main>
 

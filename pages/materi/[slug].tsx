@@ -26,7 +26,7 @@ interface CardType {
 const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => {
 	const content = useMemo(() => MateriDoc.data, [MateriDoc]);
 	const [Cards, setCards] = useState<CardType[]>([]);
-	const { currentUser } = useAuth();
+	const { currentUser, IsAdmin } = useAuth();
 	const [IsComplate, setIsComplate] = useState(false);
 	const [VideoGroup, setVideoGroup] = useState<VideoDoc[]>([]);
 	useEffect(() => {
@@ -156,7 +156,7 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 							))}
 						</div>
 					</div>
-					{IsComplate && (
+					{(IsComplate || IsAdmin) && (
 						<div className="container my-5">
 							<h2 className="text-left my-20 font-bold text-4xl text-black">
 								List Video
@@ -173,11 +173,25 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 										)}/hqdefault.jpg`}
 										alt=""
 									/>
-									<a href={`/video/${video.uid}`}>
-										<h4 className="font-bold text-black text-xl">
-											{RichText.asText(video.data.title)}
-										</h4>
-									</a>
+									<div>
+										<a href={`/video/${video.uid}`}>
+											<h4 className="font-bold text-black text-xl">
+												{RichText.asText(video.data.title)}
+											</h4>
+										</a>
+										{IsAdmin && (
+											<div className="mt-3">
+												<a
+													target="_blank"
+													rel="noopener noreferrer"
+													className="bg-primary text-white px-4 py-2 rounded-md hover:bg-opacity-80"
+													href={`/api/firebase/download/recap-video?videoId=${video.id}`}
+												>
+													Download recap
+												</a>
+											</div>
+										)}
+									</div>
 								</div>
 							))}
 						</div>

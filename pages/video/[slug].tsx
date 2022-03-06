@@ -12,10 +12,17 @@ import {
 import axios from 'axios';
 import { GetServerSidePropsResult } from 'next';
 import { RichText } from 'prismic-reactjs';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import ReactPlayer from 'react-player';
 import { useAuth } from '@core/contexts/firebase/AuthContext';
-import { BsFillPlayFill, BsFillStopFill } from 'react-icons/bs';
+import {
+	BsFillPlayFill,
+	BsFillStopFill,
+	BsFillVolumeMuteFill,
+	BsFullscreen,
+	BsFullscreenExit,
+} from 'react-icons/bs';
+import DynamicVolumeIcon from '@components/_shared/DynamicVolumeIcon';
 
 export interface PopupTypeTimestampChanged extends PopupType {
 	timestampSecond: number;
@@ -40,6 +47,10 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 	const [ShowNext, setShowNext] = useState(false);
 	const [NextUrl, setNextUrl] = useState('/');
 	const [IsFinished, setIsFinished] = useState(false);
+	const [Volume, setVolume] = useState(0.5);
+	const [Muted, setMuted] = useState(false);
+	const [Fullscreen, setFullscreen] = useState(false);
+	const PlayerWrapperRef = useRef(null);
 
 	useEffect(() => {
 		if (currentUser) {
@@ -178,14 +189,14 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 		setSeeking(true);
 	};
 
-	const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPlayed(parseFloat(e.target.value));
-	};
-
 	const handleSeekMouseUp = (e: any) => {
 		setSeeking(false);
 		const value = e.target.valueAsNumber;
-		if (value < MaxPlayed || IsAdmin) Player.seekTo(parseFloat(value));
+
+		if (value < MaxPlayed || IsAdmin) {
+			Player.seekTo(parseFloat(value));
+			setPlayed(parseFloat(e.target.value));
+		}
 	};
 
 	function formatSeconds(second: number) {
@@ -195,22 +206,55 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 		return new Date(secondToInt * 1000).toISOString().substr(11, 8);
 	}
 
+	const handleVolumeChange = (e: any) => {
+		setVolume(e.target.value);
+	};
+
+	function handleFullScreen() {
+		const doc: any = window.document;
+		const docEl = PlayerWrapperRef.current.requestFullscreen();
+
+		const requestFullScreen =
+			docEl.requestFullscreen ||
+			docEl.mozRequestFullScreen ||
+			docEl.webkitRequestFullScreen ||
+			docEl.msRequestFullscreen;
+		const cancelFullScreen =
+			doc.exitFullscreen ||
+			doc.mozCancelFullScreen ||
+			doc.webkitExitFullscreen ||
+			doc.msExitFullscreen;
+
+		if (
+			!doc.fullscreenElement &&
+			!doc.mozFullScreenElement &&
+			!doc.webkitFullscreenElement &&
+			!doc.msFullscreenElement
+		) {
+			requestFullScreen?.call(docEl);
+			setFullscreen(true);
+		} else {
+			cancelFullScreen.call(doc);
+			setFullscreen(false);
+		}
+	}
+
 	return (
 		<UserOnlyRoute>
 			<DynamicLayout content={layout_content} title={RichText.asText(content.title)}>
 				<OverlayLoading loading={IsLoading} />
-				<OverlayPopup
-					setPopups={setPopups}
-					setPlaying={setPlaying}
-					popupData={CurrentPopUp}
-					setPopup={setCurrentPopUp}
-				/>
 				<div className="w-full my-5">
 					<div className="container">
 						<h1 className="text-left my-20 font-bold text-4xl text-black">
 							{RichText.asText(content.title)}
 						</h1>
-						<div className=" overflow-hidden relative group">
+						<div ref={PlayerWrapperRef} className=" overflow-hidden relative group">
+							<OverlayPopup
+								setPopups={setPopups}
+								setPlaying={setPlaying}
+								popupData={CurrentPopUp}
+								setPopup={setCurrentPopUp}
+							/>
 							<ReactPlayer
 								controls={false}
 								playing={Playing}
@@ -221,9 +265,19 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 								onDuration={(d) => setDuration(d)}
 								url={content.video_url}
 								width="100%"
-								height="720px"
+								height={Fullscreen ? '100%' : '720px'}
+								muted={Muted}
+								volume={Volume}
+								config={{
+									youtube: {
+										playerVars: {
+											fs: 0,
+											rel: 0,
+										},
+									},
+								}}
 							/>
-							<div className="flex flex-col w-full absolute -bottom-full group-hover:bottom-0 transition-all p-5 bg-black bg-opacity-50">
+							<div className="flex flex-col w-full absolute bottom-0 lg:-bottom-full group-hover:bottom-0 transition-all p-5 bg-black bg-opacity-50">
 								<input
 									type="range"
 									min={0}
@@ -231,26 +285,54 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 									step="any"
 									value={Played}
 									onMouseDown={handleSeekMouseDown}
-									onChange={handleSeekChange}
+									onChange={handleSeekMouseUp}
 									onMouseUp={handleSeekMouseUp}
 								/>
-								<div className="flex justify-between">
-									<div>
+								<div className="flex flex-col md:flex-row justify-between">
+									<div className="flex items-center">
 										<button
 											className="text-white text-2xl"
 											onClick={() => setPlaying((prev) => !prev)}
 										>
-											{Playing ? <BsFillPlayFill /> : <BsFillStopFill />}
+											{Playing ? <BsFillStopFill /> : <BsFillPlayFill />}
 										</button>
+										<div className="flex items-center ml-5">
+											<button
+												onClick={() => setMuted((prev) => !prev)}
+												className="text-2xl text-white"
+											>
+												{Muted ? (
+													<BsFillVolumeMuteFill />
+												) : (
+													<DynamicVolumeIcon volume={Volume} />
+												)}
+											</button>
+											<input
+												type="range"
+												min={0}
+												max={1}
+												step="any"
+												value={Volume}
+												onChange={handleVolumeChange}
+											/>
+										</div>
 									</div>
-									<div>
-										<span className="text-white">
-											{formatSeconds(Played * Duration)}
-										</span>
-										<span className="mx-2 text-white">/</span>
-										<span className="text-white">
-											{formatSeconds(Duration)}
-										</span>
+									<div className="flex items-center">
+										<div className="mr-5">
+											<span className="text-white">
+												{formatSeconds(Played * Duration)}
+											</span>
+											<span className="mx-2 text-white">/</span>
+											<span className="text-white">
+												{formatSeconds(Duration)}
+											</span>
+										</div>
+										<button
+											onClick={handleFullScreen}
+											className="text-white text-2xl"
+										>
+											{Fullscreen ? <BsFullscreenExit /> : <BsFullscreen />}
+										</button>
 									</div>
 								</div>
 							</div>

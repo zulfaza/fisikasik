@@ -39,7 +39,7 @@ const Materi = ({ slice }: { slice: SliceType }) => {
 				{slice.items.map((item: MateriDoc) => (
 					<div
 						key={item.id}
-						className="max-w-[263px] group w-full h-[218px] bg-primary hover:bg-slate-600 flex flex-col justify-between py-6 px-4 rounded-lg"
+						className="md:max-w-[263px] group w-full h-[218px] bg-primary hover:bg-slate-600 flex flex-col justify-between py-6 px-4 rounded-lg"
 					>
 						<h4 className="text-4xl text-white">
 							<Link className="w-full block" href={`/materi/${item.uid}`}>

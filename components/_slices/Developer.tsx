@@ -34,17 +34,20 @@ const Developer = ({ slice }: { slice: SliceType }) => {
 						},
 						index: number
 					) => (
-						<div key={index} className="mr-5 rounded-2xl overflow-hidden shadow-lg">
+						<div
+							key={index}
+							className="mr-5 w-[238px] rounded-2xl overflow-hidden shadow-lg"
+						>
 							<div>
 								<img
-									className="h-[231px] object-cover w-[238px] overflow-hidden"
+									className="h-[231px] object-cover w-full overflow-hidden"
 									src={item.photo.url}
 									alt={item.photo.alt}
 								/>
 							</div>
 							<div className="bg-white py-5 px-3 flex-cc flex-col">
 								<div className="flex-cc flex-col h-full">
-									<h4 className="text-primary-text font-bold">
+									<h4 className="text-primary-text text-center font-bold">
 										{RichText.asText(item.name)}
 									</h4>
 									<h5 className="text-sm">{RichText.asText(item.title)}</h5>

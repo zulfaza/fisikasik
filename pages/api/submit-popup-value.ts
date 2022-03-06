@@ -39,26 +39,29 @@ const SubmitPopupValue = async (req: NextApiRequest, res: NextApiResponse) => {
 			message: 'Jawaban sudah tersimpan',
 		});
 
-	if (answer === value && !VideoDoc.exists)
-		VideoRef.set({
-			recap_point: 1,
-			answered_popup: [popupId],
-		});
-	else {
-		const updatedData: {
-			recap_point?: FieldValue;
-			answered_popup: FieldValue | null;
-		} = {
-			answered_popup: FieldValue.arrayUnion(popupId),
-		};
-		if (answer === value) updatedData.recap_point = FieldValue.increment(1);
-		VideoRef.update(updatedData);
-	}
+	const data: {
+		recap_point?: FieldValue;
+		answered_popup: FieldValue;
+		materiId: string;
+		videoId: string;
+		uid: string;
+	} = {
+		materiId,
+		videoId,
+		uid,
+		answered_popup: FieldValue.arrayUnion(popupId),
+	};
+
+	if (answer === value) data.recap_point = FieldValue.increment(1);
+
+	VideoRef.set(data, { merge: true });
+
 	return AnswerRef.set({
 		materiId,
 		videoId,
 		popupId,
 		value,
+		uid,
 	})
 		.then(() => {
 			return res.json({

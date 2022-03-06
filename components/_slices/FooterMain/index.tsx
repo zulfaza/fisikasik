@@ -1,6 +1,5 @@
 import React from 'react';
 import { ImageType, SliceType } from '@core/prismic/client';
-import Link from '@components/_shared/Link';
 
 interface Props {
 	slice: SliceType;
@@ -17,7 +16,7 @@ const SocialMediaIcon = ({
 	switch (data.social_media) {
 		case 'Instagram':
 			return (
-				<Link href="/">
+				<a href={data.url_target} target="_blank" rel="noopener noreferrer">
 					<svg
 						width="32"
 						height="32"
@@ -32,11 +31,11 @@ const SocialMediaIcon = ({
 							fill="white"
 						/>
 					</svg>
-				</Link>
+				</a>
 			);
 		case 'Facebook':
 			return (
-				<Link href="/">
+				<a href={data.url_target}>
 					<svg
 						width="32"
 						height="32"
@@ -51,12 +50,12 @@ const SocialMediaIcon = ({
 							fill="white"
 						/>
 					</svg>
-				</Link>
+				</a>
 			);
 
 		default:
 			return (
-				<Link href="/">
+				<a target="_blank" rel="noopener noreferrer" href={data.url_target}>
 					<svg
 						width="33"
 						height="33"
@@ -72,7 +71,7 @@ const SocialMediaIcon = ({
 						/>
 						<path d="M14.8501 19.8V14.3L19.2501 17.0501L14.8501 19.8Z" fill="white" />
 					</svg>
-				</Link>
+				</a>
 			);
 	}
 };
