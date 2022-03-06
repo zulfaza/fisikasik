@@ -277,7 +277,7 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 									},
 								}}
 							/>
-							<div className="flex flex-col w-full absolute bottom-0 lg:-bottom-full group-hover:bottom-0 transition-all p-5 bg-black bg-opacity-50">
+							<div className="flex flex-col w-full absolute group-active:bottom-0 -bottom-full group-hover:bottom-0 transition-all p-5 bg-black bg-opacity-50">
 								<input
 									type="range"
 									min={0}
