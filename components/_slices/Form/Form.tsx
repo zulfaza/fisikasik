@@ -14,6 +14,8 @@ const Form = ({ slice }: { slice: SliceType }) => {
 	const primary: FormSliceType = slice.primary;
 
 	const handleOnLoad = async () => {
+		console.log(LoadCount);
+
 		if (LoadCount === 1) {
 			setIsLoading(true);
 			const data = {

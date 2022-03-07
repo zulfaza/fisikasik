@@ -207,7 +207,7 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 	}
 
 	const handleVolumeChange = (e: any) => {
-		setVolume(e.target.value);
+		setVolume(parseFloat(e.target.value));
 	};
 
 	function handleFullScreen() {
@@ -277,7 +277,8 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 									},
 								}}
 							/>
-							<div className="flex flex-col w-full absolute group-active:bottom-0 -bottom-full group-hover:bottom-0 transition-all p-5 bg-black bg-opacity-50">
+							<div className="w-full h-full block lg:hidden absolute top-0 left-0 z-10"></div>
+							<div className="flex flex-col w-full z-20 absolute group-active:bottom-0 -bottom-full group-hover:bottom-0 transition-all p-5 bg-black bg-opacity-50">
 								<input
 									type="range"
 									min={0}
@@ -348,7 +349,7 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 										href={`/materi/${content.materi.uid}`}
 										className="bg-primary px-5 py-3 rounded text-white"
 									>
-										Prev
+										KEMBALI
 									</a>
 								)}
 								{ShowNext && (
@@ -356,7 +357,7 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 										href={NextUrl}
 										className="bg-primary px-5 py-3 rounded text-white"
 									>
-										Next
+										SELANJUTNYA
 									</a>
 								)}
 							</div>

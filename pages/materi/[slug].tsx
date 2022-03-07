@@ -67,7 +67,7 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 						disabled: false,
 					},
 					{
-						title: 'Materi Video',
+						title: 'Video Materi',
 						description: content.materi_description,
 						cta_text: 'Mulai',
 						cta_url: MateriUrl,
@@ -76,7 +76,7 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 					{
 						title: 'Latihan Soal',
 						description: content.quiz_description,
-						cta_text: 'Kerjain Kuis',
+						cta_text: 'Kerjakan',
 						cta_url: `/${content.quiz_url.uid}`,
 						disabled: !activeKuis,
 					},
@@ -102,16 +102,20 @@ const MateriPage = ({ MateriDoc, layout_content }: StaticProps): JSX.Element => 
 			);
 		});
 
-		Promise.all(promises).then((ApiResult) => {
-			const videos = [];
-			ApiResult.forEach((response) => {
-				videos.push({
-					...response.result,
-					id: response.docId,
+		Promise.all(promises)
+			.then((ApiResult) => {
+				const videos = [];
+				ApiResult.forEach((response) => {
+					videos.push({
+						...response.result,
+						id: response.docId,
+					});
 				});
+				setVideoGroup(videos);
+			})
+			.catch((err) => {
+				console.log(err);
 			});
-			setVideoGroup(videos);
-		});
 	}, [content]);
 
 	function getVideoYoutubeId(url: string) {

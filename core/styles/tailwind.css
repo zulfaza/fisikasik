@@ -183,7 +183,7 @@
 
 	html,
 	body {
-		@apply font-main m-0 p-0 bg-white text-primary;
+		@apply font-main m-0 p-0 bg-white text-primary text-base;
 		scroll-behavior: smooth;
 	}
 
@@ -195,6 +195,6 @@
 	input,
 	textarea,
 	select {
-		@apply focus:outline-none;
+		@apply focus:outline-none text-[100%];
 	}
 }
