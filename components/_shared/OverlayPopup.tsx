@@ -2,7 +2,7 @@ import { useAuth } from '@core/contexts/firebase/AuthContext';
 import { PopupTypeTimestampChanged } from '@pages/video/[slug]';
 import axios from 'axios';
 import { RichText } from 'prismic-reactjs';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 interface Props {
 	popupData: PopupTypeTimestampChanged | null;
@@ -14,50 +14,6 @@ interface Props {
 const OverlayPopup = ({ popupData, setPopup, setPopups, setPlaying }: Props) => {
 	const { currentUser } = useAuth();
 	const [IsLoading, setIsLoading] = useState(false);
-	const [TimeLeft, setTimeLeft] = useState(-1);
-	const [Timer, setTimer] = useState(null);
-
-	useEffect(() => {
-		if (popupData) {
-			setTimeLeft(popupData.duration ?? 10);
-			setTimer(
-				setInterval(() => {
-					setTimeLeft((prev) => prev - 1);
-				}, 1000)
-			);
-		}
-	}, [popupData]);
-
-	useEffect(() => {
-		const handleSelectOption = async (optvalue: string, popup = popupData) => {
-			setIsLoading(true);
-			const data = {
-				materiId: popup.materiId,
-				videoId: popup.videoId,
-				popupId: popup.popupId,
-				value: optvalue,
-				uid: currentUser.uid,
-			};
-
-			return axios
-				.post('/api/submit-popup-value', data)
-				.then(() => {
-					// console.log(res);
-					SetContinue();
-				})
-				.catch((err) => {
-					// console.log(err.response);
-					if (err.response.status) {
-						SetContinue();
-					}
-				})
-				.finally(() => {
-					setIsLoading(false);
-					if (Timer) clearInterval(Timer);
-				});
-		};
-		if (TimeLeft == 0) handleSelectOption('-');
-	}, [TimeLeft]);
 
 	if (!popupData) return <></>;
 
@@ -97,14 +53,12 @@ const OverlayPopup = ({ popupData, setPopup, setPopups, setPlaying }: Props) => 
 			})
 			.finally(() => {
 				setIsLoading(false);
-				if (Timer) clearInterval(Timer);
 			});
 	};
 
 	return (
 		<div className="fixed z-50 top-0 left-0 h-screen w-screen flex-cc bg-black bg-opacity-40">
 			<div className="w-full max-w-md bg-white rounded-lg p-5">
-				<h3 className="text-xl text-center font-bold">{TimeLeft}s</h3>
 				<h3 className="font-bold text-center text-black">
 					{RichText.asText(popupData.questions)}
 				</h3>
