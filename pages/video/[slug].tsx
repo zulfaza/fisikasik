@@ -75,15 +75,33 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 						break;
 				}
 			}
-			axios.post('/api/add-last-video', data).then(() => {
-				console.log('Sukses update history');
-			});
+
 			axios.post('/api/firebase/get-materi', data).then((apiResult) => {
 				const materi = apiResult.data?.data?.data?.materi ?? {};
 				if (materi.isSubmitKuis) setIsFinished(true);
 			});
 		}
 	}, []);
+
+	useEffect(() => {
+		const data: {
+			materiId: string;
+			videoId: string;
+			uid: string;
+			isLastVideo?: boolean;
+		} = {
+			materiId: content.materi.id,
+			videoId: videoDoc.id,
+			uid: currentUser.uid,
+		};
+
+		if (ShowNext && content.next_video.uid && content.next_video.type === 'pages')
+			data.isLastVideo = true;
+
+		axios.post('/api/add-last-video', data).then(() => {
+			console.log('Sukses update history');
+		});
+	}, [ShowNext]);
 
 	useEffect(() => {
 		function ResetState() {

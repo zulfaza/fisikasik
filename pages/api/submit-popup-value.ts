@@ -10,12 +10,16 @@ const SubmitPopupValue = async (req: NextApiRequest, res: NextApiResponse) => {
 		popupId,
 		value,
 		uid,
+		title,
+		timestamp,
 	}: {
 		materiId: string;
 		videoId: string;
 		popupId: string;
 		value: string;
 		uid: string;
+		title: string;
+		timestamp: string;
 	} = req.body;
 
 	const popupData: PopupDoc = await client.getByID(popupId);
@@ -62,6 +66,8 @@ const SubmitPopupValue = async (req: NextApiRequest, res: NextApiResponse) => {
 		popupId,
 		value,
 		uid,
+		title,
+		timestamp,
 	})
 		.then(() => {
 			return res.json({

@@ -2,7 +2,7 @@ import { auth, db } from '@core/firebase/admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const AddUser = (req: NextApiRequest, res: NextApiResponse) => {
-	const { email, password, name } = req.body;
+	const { email, password, name, kelas } = req.body;
 
 	return auth
 		.createUser({
@@ -20,6 +20,7 @@ const AddUser = (req: NextApiRequest, res: NextApiResponse) => {
 				displayName: userRecord.displayName,
 				photoURL: userRecord.photoURL,
 				email,
+				kelas,
 			});
 		})
 		.then(() => {

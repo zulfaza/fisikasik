@@ -11,7 +11,7 @@ import {
 import { useAuth } from '@core/contexts/firebase/AuthContext';
 import UserOnlyRoute from '@core/customRoute/UserOnlyRoute';
 import { HiKey } from 'react-icons/hi';
-import ModalAddUser from '@components/_shared/ModalAddUser';
+import Link from '@components/_shared/Link';
 
 const Dashboard = ({ content, layout_content }: StaticProps): JSX.Element => {
 	const { currentUser = null, IsAdmin } = useAuth();
@@ -53,14 +53,13 @@ const Dashboard = ({ content, layout_content }: StaticProps): JSX.Element => {
 								</div>
 							</div>
 						</div>
-						{ShowAddUser && <ModalAddUser closeModal={() => setShowAddUser(false)} />}
 						{IsAdmin && (
-							<button
-								onClick={() => setShowAddUser(true)}
-								className="bg-primary w-full py-4 rounded-xl text-white hover:bg-opacity-80 transition-all"
+							<Link
+								className="bg-primary block text-center w-full py-4 rounded-xl text-white hover:bg-opacity-80 transition-all"
+								href="/admin/manage-user"
 							>
-								Add User
-							</button>
+								Manage User
+							</Link>
 						)}
 					</div>
 				</div>

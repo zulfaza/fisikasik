@@ -37,6 +37,8 @@ const OverlayPopup = ({ popupData, setPopup, setPopups, setPlaying }: Props) => 
 			popupId: popup.popupId,
 			value: optvalue,
 			uid: currentUser.uid,
+			title: RichText.asText(popup.title),
+			timestamp: popup.timestampSecond,
 		};
 
 		return axios
