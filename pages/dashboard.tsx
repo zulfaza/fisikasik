@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { GetStaticPropsResult } from 'next';
 import DynamicLayout from '@components/_layouts/DynamicLayout';
 import RenderSlice from '@components/_slices/_renderslice';
@@ -19,7 +19,6 @@ const Dashboard = ({ content, layout_content }: StaticProps): JSX.Element => {
 	const arrName = currentUser?.displayName?.match(pattern) ?? [];
 	const name = arrName[1] ?? currentUser.displayName;
 	const kelas = arrName[2] ?? '-';
-	const [ShowAddUser, setShowAddUser] = useState(false);
 
 	return (
 		<UserOnlyRoute redirect="/login">

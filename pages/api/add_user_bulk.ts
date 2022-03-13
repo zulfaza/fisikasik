@@ -29,6 +29,7 @@ const AddUserBulk = (req: NextApiRequest, res: NextApiResponse) => {
 					});
 				})
 				.catch((err) => {
+					console.log(err);
 					console.log('failed created new user:', user.email);
 					return null;
 				})

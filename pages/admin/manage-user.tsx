@@ -2,7 +2,6 @@ import AdminOnlyComponent from '@components/_layouts/AdminOnlyComponent';
 import DynamicLayout from '@components/_layouts/DynamicLayout';
 import TableUser from '@components/_shared/admin/TableUser';
 import ModalAddUser from '@components/_shared/ModalAddUser';
-import { db } from '@core/firebase/admin';
 import { LayoutContentType, queryLayout } from '@core/prismic/client';
 import axios from 'axios';
 import { GetServerSidePropsResult } from 'next';

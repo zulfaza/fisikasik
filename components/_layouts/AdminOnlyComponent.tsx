@@ -9,7 +9,7 @@ const AdminOnlyComponent = ({ children }: Props) => {
 
 	const router = useRouter();
 
-	if (currentUser) return <Fragment>{children}</Fragment>;
+	if (currentUser && IsAdmin) return <Fragment>{children}</Fragment>;
 	router.push('/404');
 	return <></>;
 };

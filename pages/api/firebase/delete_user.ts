@@ -8,7 +8,7 @@ const DeleteUser = async (req: NextApiRequest, res: NextApiResponse) => {
 		uid: string;
 	} = req.body;
 
-	let UsersRef = db.collection('Users').doc(uid);
+	const UsersRef = db.collection('Users').doc(uid);
 	return auth
 		.deleteUser(uid)
 		.then(() => UsersRef.delete())

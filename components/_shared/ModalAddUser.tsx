@@ -1,8 +1,5 @@
-import { useAuth } from '@core/contexts/firebase/AuthContext';
-import { PopupTypeTimestampChanged } from '@pages/video/[slug]';
 import axios from 'axios';
-import { RichText } from 'prismic-reactjs';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import InputForm from './Forms/InputForm';
 
 interface Props {
@@ -30,6 +27,8 @@ const ModalAddUser = ({ closeModal, show }: Props) => {
 		};
 
 		axios.post('/api/add_user', data).then((res) => {
+			console.log(res);
+
 			handleCloseModal();
 		});
 	}
