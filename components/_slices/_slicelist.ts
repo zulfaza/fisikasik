@@ -11,6 +11,8 @@ import SimpleTitle from './SimpleTitle';
 import Paragraph from './Paragraph';
 import SimpleButton from './SimpleButton';
 import Form from './Form';
+import Image from './Image';
+import EmbedVideo from './EmbedVideo';
 
 // Your slice_type (snake_case) must be the same with the Component's name (PascalCase)
 // example: 'hero_landing' will render <HeroLanding />
@@ -31,6 +33,8 @@ const sliceList = {
 	Paragraph,
 	SimpleButton,
 	Form,
+	Image,
+	EmbedVideo,
 };
 
 export default sliceList;

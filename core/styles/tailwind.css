@@ -90,6 +90,16 @@
 	input[type='range']:focus::-moz-range-thumb {
 		@apply border border-primary outline outline-primary;
 	}
+
+	.simple-title h1 {
+		@apply font-bold text-4xl text-black;
+	}
+	.simple-title h2 {
+		@apply font-bold text-3xl text-black;
+	}
+	.simple-title h3 {
+		@apply font-bold text-2xl text-black;
+	}
 }
 
 @layer utilities {

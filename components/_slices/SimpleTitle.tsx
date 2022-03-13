@@ -10,10 +10,8 @@ const SimpleTitle = ({ slice }: { slice: SliceType }) => {
 
 	return (
 		<div className="w-full mt-10 mb-5">
-			<div className="container">
-				<h1 className={`text-${primary.text_align} font-bold text-4xl text-black`}>
-					{RichText.asText(primary.title)}
-				</h1>
+			<div className={`container simple-title text-${primary.text_align}`}>
+				{RichText.render(primary.title)}
 			</div>
 		</div>
 	);
