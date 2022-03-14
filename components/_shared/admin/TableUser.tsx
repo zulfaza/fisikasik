@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface Props {
 	users: {
@@ -12,7 +12,7 @@ interface Props {
 
 const TableUser = ({ users }: Props) => {
 	const [IsDeleteUser, setIsDeleteUser] = useState(false);
-	const [UserList, setUserList] = useState(users);
+	const [UserList, setUserList] = useState([]);
 	function handleDeleteUser(uid: string) {
 		setIsDeleteUser(true);
 		axios
@@ -29,6 +29,11 @@ const TableUser = ({ users }: Props) => {
 				setIsDeleteUser(false);
 			});
 	}
+
+	useEffect(() => {
+		setUserList(users);
+	}, [users]);
+
 	return (
 		<table className="w-full text-md bg-white shadow-md rounded my-4">
 			<tbody>

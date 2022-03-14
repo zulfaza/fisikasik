@@ -45,7 +45,7 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 	const [Playing, setPlaying] = useState(false);
 	const [CurrentPopUp, setCurrentPopUp] = useState<PopupTypeTimestampChanged>(null);
 	const [ShowNext, setShowNext] = useState(false);
-	const [NextUrl, setNextUrl] = useState('/');
+	const [NextUrl, setNextUrl] = useState<string>(null);
 	const [IsFinished, setIsFinished] = useState(false);
 	const [Volume, setVolume] = useState(0.5);
 	const [Muted, setMuted] = useState(false);
@@ -97,10 +97,10 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 
 		if (ShowNext && content.next_video.uid && content.next_video.type === 'pages')
 			data.isLastVideo = true;
-
-		axios.post('/api/add-last-video', data).then(() => {
-			console.log('Sukses update history');
-		});
+		if (content.type !== 'pembahasan')
+			axios.post('/api/add-last-video', data).then(() => {
+				console.log('Sukses update history');
+			});
 	}, [ShowNext]);
 
 	useEffect(() => {
@@ -129,11 +129,12 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 			const promises = [];
 
 			popup_group.forEach((item) => {
-				promises.push(
-					axios
-						.post('/api/prismic/get-by-id', { id: item.popup.id })
-						.then((res) => res.data.data)
-				);
+				if (item.popup.id)
+					promises.push(
+						axios
+							.post('/api/prismic/get-by-id', { id: item.popup.id })
+							.then((res) => res.data.data)
+					);
 			});
 
 			const videoDocument = await axios
@@ -273,6 +274,7 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 								popupData={CurrentPopUp}
 								setPopup={setCurrentPopUp}
 							/>
+
 							<ReactPlayer
 								controls={false}
 								playing={Playing}
@@ -296,6 +298,7 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 								}}
 							/>
 							<div className="w-full h-full block lg:hidden absolute top-0 left-0 z-10"></div>
+							<div className="w-full h-20 lg:block hidden absolute top-0 left-0 z-50"></div>
 							<div className="flex flex-col w-full z-20 absolute group-active:bottom-0 -bottom-full group-hover:bottom-0 transition-all p-5 bg-black bg-opacity-50">
 								<input
 									type="range"
@@ -370,7 +373,7 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 										KEMBALI
 									</a>
 								)}
-								{ShowNext && (
+								{ShowNext && NextUrl && (
 									<a
 										href={NextUrl}
 										className="bg-primary px-5 py-3 rounded text-white"

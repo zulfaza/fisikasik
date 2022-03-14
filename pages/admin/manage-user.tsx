@@ -62,7 +62,7 @@ const ManageUser = ({ layout_content }: serverProps) => {
 							Add User
 						</button>
 					</div>
-					<TableUser users={Users} />
+					{Users.length > 0 && <TableUser users={Users} />}
 				</div>
 			</DynamicLayout>
 		</AdminOnlyComponent>
