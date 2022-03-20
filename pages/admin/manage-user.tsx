@@ -47,6 +47,13 @@ const ManageUser = ({ layout_content }: serverProps) => {
 										X MIPA {index + 5}
 									</option>
 								))}
+							{Array(2)
+								.fill(1)
+								.map((_, index) => (
+									<option key={index} value={`XI MIPA ${index + 6}`}>
+										XI MIPA {index + 6}
+									</option>
+								))}
 							{Array(4)
 								.fill(1)
 								.map((_, index) => (
