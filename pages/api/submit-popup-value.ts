@@ -58,17 +58,18 @@ const SubmitPopupValue = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	if (answer === value) data.recap_point = FieldValue.increment(1);
 
-	VideoRef.set(data, { merge: true });
-
-	return AnswerRef.set({
-		materiId,
-		videoId,
-		popupId,
-		value,
-		uid,
-		title,
-		timestamp,
-	})
+	return VideoRef.set(data, { merge: true })
+		.then(() =>
+			AnswerRef.set({
+				materiId,
+				videoId,
+				popupId,
+				value,
+				uid,
+				title,
+				timestamp,
+			})
+		)
 		.then(() => {
 			return res.json({
 				status: 'success',
