@@ -212,7 +212,7 @@ const Video = ({ videoDoc, layout_content }: serverProps) => {
 		setSeeking(false);
 		const value = e.target.valueAsNumber;
 
-		if (value < MaxPlayed || IsAdmin) {
+		if (value < MaxPlayed || IsAdmin || IsFinished || content.type === 'pembahasan') {
 			Player.seekTo(parseFloat(value));
 			setPlayed(parseFloat(e.target.value));
 		}
