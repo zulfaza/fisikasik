@@ -1,6 +1,6 @@
 # FisikAsik
 
-FisikAsik adalah website pembelajaran fisika, di mana peserta didik dapat belajar fisika secara runtut melalui video pembelajaran interaktif. Selain itu, tujuan utama dikembangkannya FisikAsik adalah untuk memenuhi mata kuliah Tugas Akhir Skripsi Program Studi Pendidikan Fisika Universitas Negeri Yogyakarta (UNY).
+FisikAsik is a physics learning website, where students can learn physics in a coherent way through interactive learning videos. In addition, the main purpose of developing Physics Asik is to fulfill the Thesis Final Project course for the Yogyakarta State University (UNY) Physics Education Study Program.
 
 
 **Technologies:**
