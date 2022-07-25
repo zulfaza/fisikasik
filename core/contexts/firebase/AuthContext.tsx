@@ -7,16 +7,27 @@ const AuthContext = React.createContext(null);
 interface Props {
 	children: React.ReactNode;
 }
+
+type Context = {
+	currentUser: User;
+	IsAdmin: boolean;
+	AuthLoading: boolean;
+	Jabatan: string | null;
+};
+
 const AuthProvider = ({ children }: Props): JSX.Element => {
 	const [currentUser, setCurrentUser] = useState<User>(null);
 	const [AuthLoading, setAuthLoading] = useState(true);
 	const [IsAdmin, setIsAdmin] = useState<boolean>(false);
+	const [Jabatan, setJabatan] = useState<string | null>(null);
 
 	useEffect(() => {
 		const unsubcribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
 				user.getIdTokenResult().then((res) => {
-					if (res.claims.admin) setIsAdmin(true);
+					const { admin, jabatan } = res.claims;
+					if (admin) setIsAdmin(true);
+					if (jabatan && typeof jabatan === 'string') setJabatan(jabatan);
 					setCurrentUser(user);
 					setAuthLoading(false);
 				});
@@ -34,6 +45,7 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
 		currentUser,
 		IsAdmin,
 		AuthLoading,
+		Jabatan,
 	};
 
 	return <AuthContext.Provider value={value}>{!AuthLoading && children}</AuthContext.Provider>;
@@ -41,7 +53,5 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
 
 export default AuthProvider;
 
-export const useAuth = (): {
-	currentUser: User;
-	IsAdmin: boolean;
-} => useContext(AuthContext);
+export const useAuth = (): Context => useContext(AuthContext);
+

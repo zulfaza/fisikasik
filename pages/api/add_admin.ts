@@ -1,12 +1,12 @@
 import { auth } from '@core/firebase/admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const AddAdmin = (req: NextApiRequest, res: NextApiResponse) => {
-	const { email } = req.body;
+const AddAdmin = async (req: NextApiRequest, res: NextApiResponse) => {
+	const { email, jabatan = null } = req.body;
 
 	return auth
 		.getUserByEmail(email)
-		.then((userRecord) => auth.setCustomUserClaims(userRecord.uid, { admin: true }))
+		.then((userRecord) => auth.setCustomUserClaims(userRecord.uid, { admin: true, jabatan }))
 		.then(() =>
 			res.status(200).json({
 				status: 'success',
@@ -20,3 +20,4 @@ const AddAdmin = (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default AddAdmin;
+

@@ -14,11 +14,11 @@ import { HiKey } from 'react-icons/hi';
 import Link from '@components/_shared/Link';
 
 const Dashboard = ({ content, layout_content }: StaticProps): JSX.Element => {
-	const { currentUser = null, IsAdmin } = useAuth();
+	const { currentUser = null, IsAdmin, Jabatan } = useAuth();
 	const pattern = /(.*)(XI*\sMIPA\s\d+)\s(\d{4})/i;
 	const arrName = currentUser?.displayName?.match(pattern) ?? [];
 	const name = arrName[1] ?? currentUser.displayName;
-	const kelas = arrName[2] ?? '-';
+	const kelas = arrName[2] ?? Jabatan ?? '-';
 
 	return (
 		<UserOnlyRoute redirect="/login">
@@ -83,3 +83,4 @@ export const getStaticProps = async (): Promise<GetStaticPropsResult<StaticProps
 };
 
 export default Dashboard;
+
